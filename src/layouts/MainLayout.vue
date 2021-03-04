@@ -64,7 +64,7 @@
               <div class="text-subtitle1 q-mt-md q-mb-xs">{{ profilInfo }}</div>
 
               <q-btn
-                color="red-7"
+                color="primary"
                 :label="$t('logout')"
                 push
                 size="sm"

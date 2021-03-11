@@ -13,6 +13,8 @@ export default {
   passwordNotEqual: 'Passwords are not equal',
   accountCreated: 'Account Created',
   notAcceptTermsAndConditions: 'You must accept terms and conditions',
+  gotIt : 'Got it',
+  cookieAlert: 'This website uses cookies to ensure you get the best experience on our website',
   letsGo: 'Let\'s go',
   profile: 'Profile',
   information: 'Information',
@@ -31,5 +33,6 @@ export default {
   settings: 'Settings',
   darkmode: 'Darkmode',
   language: 'Language',
-  overview: 'Overview'
+  overview: 'Overview',
+  moonStonks: 'MoonStonks'
 }

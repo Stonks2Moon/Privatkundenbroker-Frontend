@@ -26,5 +26,27 @@ export default function (/* { store, ssrContext } */) {
     base: process.env.VUE_ROUTER_BASE
   })
 
+    Router.beforeEach((to, from, next) => {
+    const authRequired = to.matched.some((route) => route.meta.requiresAuth)
+    const isAuthenticatedFromStore = Router.app.$store.state.user.isAuthenticated
+    const isAuthenticatedFromCookie = Router.app.$q.cookies.get("cookie_moonStonks_auth");
+
+    //if(authRequired){//
+    if(!authRequired){
+      next()
+      return
+    }else if(isAuthenticatedFromStore || isAuthenticatedFromCookie ? true : false){
+      if(to.path === '/'){
+        next('/home')
+      }else{
+        next()
+      }
+      
+      return
+    }else{
+      next('/login')
+    }
+  })
+
   return Router
 }

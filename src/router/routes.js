@@ -19,6 +19,7 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
+    meta: {requiresAuth: true},
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'profile', component: () => import('pages/Profile.vue') },

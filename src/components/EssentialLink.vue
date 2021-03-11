@@ -34,7 +34,7 @@ export default {
 
 <style lang="scss">
 .tab-active {
-  background-color: $secondary;
+  background-color: #a7acee;
   font-weight: bolder;
 }
 </style>

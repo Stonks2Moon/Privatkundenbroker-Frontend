@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          <div class="xs-hide">MoonStonks</div>
+          <div class="xs-hide">{{ $t("moonStonks") }}</div>
         </q-toolbar-title>
 
         <q-btn-dropdown rounded flat size="120%" icon="account_circle">
@@ -70,7 +70,7 @@
                 size="sm"
                 v-close-popup
                 to="/login"
-                @click="clearState"
+                @click="logout"
               />
             </div>
           </div>
@@ -100,16 +100,26 @@
 
     <q-page-container>
       <router-view />
+      <cookie-law
+        v-if="!$store.state.settings.acceptedCookie"
+        theme="blood-orange"
+        v-on:accept="acceptedCookie()"
+        :buttonText="$t('gotIt') + '!'"
+        v-on:decline="acceptedCookie()"
+      >
+        <div slot="message">{{ $t("cookieAlert") }}.</div>
+      </cookie-law>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
 import EssentialLink from "components/EssentialLink.vue";
+import CookieLaw from "vue-cookie-law";
 
 export default {
   name: "MainLayout",
-  components: { EssentialLink },
+  components: { EssentialLink, CookieLaw },
   data() {
     return {
       leftDrawerOpen: false,
@@ -122,16 +132,61 @@ export default {
       colorMode: this.$q.dark.isActive
     };
   },
+  created() {
+    var user = this.$q.cookies.get("cookie_moonStonks_user");
+    var settings = this.$q.cookies.get("cookie_moonStonks_settings");
+    console.log(settings);
+    console.log(this.$store.state.settings.darkMode);
+    console.log(settings.darkMode);
+
+    this.$store.commit("user/save", user);
+    this.$store.commit("user/authenticateUser", true);
+
+    if (this.$store.state.settings.acceptedCookie) {
+      this.$q.cookies.set("cookie_moonStonks_settings", settings, {
+        expires: 10
+      });
+    }
+
+    if (this.$store.state.settings.language) {
+      this.lang = this.$store.state.settings.language;
+    }
+    if (settings.darkMode || this.$store.state.settings.darkMode) {
+      this.colorMode = true;
+    } else {
+      this.colorMode = false;
+    }
+  },
   watch: {
     lang(lang) {
       this.$i18n.locale = lang;
-      this.$q.cookies.set("cookie_moonStonks_language", lang, { expires: 365 });
-      console.log(this.$q.cookies.get("cookie_moonStonks_language"));
+      this.$store.commit("settings/changeLanguage", lang);
+      var settings = this.$store.state.settings;
+      if (this.$store.state.settings.acceptedCookie) {
+        this.$q.cookies.set("cookie_moonStonks_settings", settings, {
+          expires: 365
+        });
+      }
+      console.log(this.$q.cookies.get("cookie_moonStonks_settings"));
     },
     colorMode(colorMode) {
       if (colorMode) {
+        this.$store.commit("settings/changeToDarkMode", true);
+        if (this.$store.state.settings.acceptedCookie) {
+          var settings = this.$store.state.settings;
+          this.$q.cookies.set("cookie_moonStonks_settings", settings, {
+            expires: 365
+          });
+        }
         this.$q.dark.set(true);
       } else {
+        this.$store.commit("settings/changeToDarkMode", false);
+        if (this.$store.state.settings.acceptedCookie) {
+          var settings = this.$store.state.settings;
+          this.$q.cookies.set("cookie_moonStonks_settings", settings, {
+            expires: 365
+          });
+        }
         this.$q.dark.set(false);
       }
     }
@@ -158,11 +213,14 @@ export default {
     },
     profilInfo() {
       return (
-        this.$store.state.firstName + " " + this.$store.state.lastName + "."
+        this.$store.state.user.firstName +
+        " " +
+        this.$store.state.user.lastName.charAt(0) +
+        "."
       );
     },
     getImageURL() {
-      switch (this.$store.state.gender) {
+      switch (this.$store.state.user.gender) {
         case "m":
           return "https://cdn.quasar.dev/img/boy-avatar.png";
         case "f":
@@ -175,9 +233,19 @@ export default {
     }
   },
   methods: {
-    clearState() {
+    acceptedCookie() {
+      this.$store.commit("settings/acceptCookie", true);
+      var user = this.$store.state.user;
+      var settings = this.$store.state.settings;
+      this.$q.cookies.set("cookie_moonStonks_user", user, { expires: 10 });
+      this.$q.cookies.set("cookie_moonStonks_settings", settings, {
+        expires: 365
+      });
+    },
+    logout() {
       this.$q.cookies.remove("cookie_moonStonks_user", { expires: 10 });
-      this.$store.replaceState({});
+      this.$q.cookies.remove("cookie_moonStonks_auth", { expires: 10 });
+      this.$store.commit("user/resetState");
     }
   }
 };

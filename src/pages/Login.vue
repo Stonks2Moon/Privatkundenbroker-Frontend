@@ -7,7 +7,7 @@
         <div class="row">
           <q-card class="shadow-20" style="width:325px;height:500px;">
             <q-card-section class="bg-primary">
-              <h4 class="text-h5 q-my-md">MoonStonks</h4>
+              <h4 class="text-h5 q-my-md">{{ $t("moonStonks") }}</h4>
               <div
                 class="absolute-bottom-right q-pr-md"
                 style="transform: translateY(50%);"
@@ -54,7 +54,7 @@
                 color="primary"
                 class="full-width"
                 :label="$t('login')"
-                @click="login"
+                @click="loginTest"
               />
             </q-card-actions>
             <q-card-section class="text-center q-pa-sm">
@@ -110,16 +110,25 @@ export default {
                 firstName: responseData.additionalInfo.firstName,
                 lastName: responseData.additionalInfo.lastName,
                 gender: responseData.additionalInfo.gender,
-                birthday: responseData.additionalInfo.birthday,
-                biography: responseData.additionalInfo.biography,
-                pictureURL: responseData.additionalInfo.pictureURL
+                birthday: responseData.additionalInfo.birthday
               };
-              this.$store.commit("save", user);
-              this.$q.cookies.set("cookie_moonStonks_user", user, {
-                expires: 10
-              });
+              this.$store.commit("user/save", user);
+              this.$store.commit("user/authenticateUser", true);
+              if (this.$store.state.settings.acceptedCookie) {
+                var settings = {
+                  acceptedCookie: true,
+                  darkMode: this.$q.dark.isActive,
+                  language: this.$i18n.locale
+                };
+                this.$q.cookies.set("cookie_moonStonks_settings", settings, {
+                  expires: 10
+                });
+                this.$q.cookies.set("cookie_moonStonks_user", user, {
+                  expires: 10
+                });
+              }
               this.$router.push({
-                path: "/buddySearch"
+                path: "/home"
               });
             } else {
               this.$q.notify({
@@ -129,6 +138,34 @@ export default {
             }
           });
       }
+    },
+    loginTest() {
+      var user = {
+        email: "meine@email.de",
+        passwordHash: "hashedPassword",
+        firstName: "Max",
+        lastName: "Mustermann",
+        gender: "m",
+        birthday: "1999-03-30"
+      };
+      this.$store.commit("user/save", user);
+      this.$store.commit("user/authenticateUser", true);
+      if (this.$store.state.settings.acceptedCookie) {
+        var settings = {
+          acceptedCookie: true,
+          darkMode: this.$q.dark.isActive,
+          language: this.$i18n.locale
+        };
+        this.$q.cookies.set("cookie_moonStonks_settings", settings, {
+          expires: 10
+        });
+        this.$q.cookies.set("cookie_moonStonks_user", user, {
+          expires: 10
+        });
+      }
+      this.$router.push({
+        path: "/home"
+      });
     },
     loginWithHash(email, hashedPassword) {
       this.$axios
@@ -144,16 +181,21 @@ export default {
               firstName: responseData.additionalInfo.firstName,
               lastName: responseData.additionalInfo.lastName,
               gender: responseData.additionalInfo.gender,
-              birthday: responseData.additionalInfo.birthday,
-              biography: responseData.additionalInfo.biography,
-              pictureURL: responseData.additionalInfo.pictureURL
+              birthday: responseData.additionalInfo.birthday
             };
-            this.$store.commit("save", user);
-            this.$q.cookies.set("cookie_moonStonks_user", user, {
-              expires: 10
-            });
+            this.$store.commit("user/save", user);
+            this.$store.commit("user/authenticateUser", true);
+            if (this.$store.state.settings.acceptedCookie) {
+              var settings = this.$store.state.settings;
+              this.$q.cookies.set("cookie_moonStonks_settings", settings, {
+                expires: 10
+              });
+              this.$q.cookies.set("cookie_moonStonks_user", user, {
+                expires: 10
+              });
+            }
             this.$router.push({
-              path: "/buddySearch"
+              path: "/home"
             });
           } else {
             console.log(responseData);

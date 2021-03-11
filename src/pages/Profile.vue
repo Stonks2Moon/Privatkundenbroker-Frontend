@@ -56,7 +56,7 @@ export default {
   },
   watch: {},
   created() {
-    this.profile = this.$store.state;
+    this.profile = this.$store.state.user;
     this.formattedDate = new Date(this.profile.birthday).toLocaleDateString(
       "de-DE"
     );

@@ -196,8 +196,13 @@ export default {
       return [
         {
           title: this.$t("overview"),
-          icon: "home",
+          icon: "inventory",
           link: "/home"
+        },
+        {
+          title: this.$t("Order"),
+          icon: "shop",
+          link: "/order"
         }
       ];
     },

@@ -102,7 +102,7 @@
       <router-view />
       <cookie-law
         v-if="!$store.state.settings.acceptedCookie"
-        theme="blood-orange"
+        theme="mytheme"
         v-on:accept="acceptedCookie()"
         :buttonText="$t('gotIt') + '!'"
         v-on:decline="acceptedCookie()"

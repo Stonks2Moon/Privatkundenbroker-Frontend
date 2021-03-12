@@ -6,7 +6,7 @@
       <router-view />
       <cookie-law
         v-if="!$store.state.settings.acceptedCookie"
-        theme="blood-orange"
+        theme="mytheme"
         v-on:accept="acceptedCookie()"
         :buttonText="$t('gotIt') + '!'"
         v-on:decline="acceptedCookie()"
@@ -43,3 +43,22 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.Cookie--mytheme {
+  background: $dark;
+  color: #ffffff;
+  padding: 1.25em;
+}
+.Cookie__button {
+  background: $primary;
+  padding: 0.625em 3.125em;
+  color: #ffffff;
+  border-radius: 1;
+  border: 0;
+  font-size: 1em;
+  &:hover {
+    background: darken($primary, 10%);
+  }
+}
+</style>

@@ -75,7 +75,7 @@ cfg.module.rules.push({
       },
       env: {
         API_URL: ctx.dev ? 'http://localhost:3000/'
-          : 'https://productive.com/'
+          : 'https://privat.moonstonks.space/backend/'
       }
     },
 

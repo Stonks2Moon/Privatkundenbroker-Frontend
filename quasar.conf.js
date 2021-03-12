@@ -135,7 +135,7 @@ cfg.module.rules.push({
         description: `Trade the best stonks to the moon`,
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#ffffff',
+        background_color: '#000000',
         theme_color: '#027be3',
         icons: [
           {

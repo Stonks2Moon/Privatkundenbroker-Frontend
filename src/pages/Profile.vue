@@ -11,6 +11,10 @@
       </div>
       <div class="row items-center">
         <div class="col-sm-2 col-xs-3 text-left q-px-md">
+          {{ $t("customerID") }}
+        </div>
+        <q-input class="col-sm-10 col-xs-9" v-model="profile.ID" readonly />
+        <div class="col-sm-2 col-xs-3 text-left q-px-md">
           {{ $t("firstname") }}
         </div>
         <q-input
@@ -27,11 +31,27 @@
           readonly
         />
         <div class="col-sm-2 col-xs-3 text-left q-px-md">
-          {{ $t("birthday") }}
+          {{ $t("street") }}
         </div>
-        <q-input class="col-sm-10 col-xs-9" v-model="formattedDate" readonly />
-        <div class="col-sm-2 col-xs-3 text-left q-px-md">{{ $t("email") }}</div>
-        <q-input class="col-sm-10 col-xs-9" v-model="profile.email" readonly />
+        <q-input class="col-sm-10 col-xs-9" v-model="profile.street" readonly />
+        <div class="col-sm-2 col-xs-3 text-left q-px-md">
+          {{ $t("housenumber") }}
+        </div>
+        <q-input
+          class="col-sm-10 col-xs-9"
+          v-model="profile.houseNumber"
+          readonly
+        />
+        <div class="col-sm-2 col-xs-3 text-left q-px-md">
+          {{ $t("postalCode") }}
+        </div>
+        <q-input
+          class="col-sm-10 col-xs-9"
+          v-model="profile.postalCode"
+          readonly
+        />
+        <div class="col-sm-2 col-xs-3 text-left q-px-md">{{ $t("city") }}</div>
+        <q-input class="col-sm-10 col-xs-9" v-model="profile.city" readonly />
       </div>
     </div>
   </q-page>
@@ -50,16 +70,13 @@ export default {
         case "x":
           return "https://www.humanium.org/es/wp-content/uploads/2016/03/shutterstock_304512785-300x300.jpg";
         default:
-          return "keine Angabe";
+          return "https://cdn.quasar.dev/img/boy-avatar.png";
       }
     }
   },
   watch: {},
   created() {
     this.profile = this.$store.state.user;
-    this.formattedDate = new Date(this.profile.birthday).toLocaleDateString(
-      "de-DE"
-    );
   },
   data() {
     return {

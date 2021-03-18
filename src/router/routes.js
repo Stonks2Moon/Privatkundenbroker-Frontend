@@ -23,7 +23,10 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'profile', component: () => import('pages/Profile.vue') },
-      { path: 'home', component: () => import('pages/Home.vue') }
+      { path: 'home', component: () => import('pages/Home.vue') },
+      { path: 'order', component: () => import('pages/Order.vue') },
+      { path: 'transactions', component: () => import('pages/Transactions.vue') },
+      { path: 'order/stock/ID=:stockID', component: () => import('pages/StockOrder.vue') },
     ]
   },
 

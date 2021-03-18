@@ -196,13 +196,18 @@ export default {
       return [
         {
           title: this.$t("overview"),
-          icon: "inventory",
+          icon: "account_balance_wallet",
           link: "/home"
         },
         {
-          title: this.$t("Order"),
+          title: this.$t("order"),
           icon: "shop",
           link: "/order"
+        },
+        {
+          title: this.$t("transactions"),
+          icon: "clear_all",
+          link: "/transactions"
         }
       ];
     },
@@ -233,7 +238,7 @@ export default {
         case "x":
           return "https://www.humanium.org/es/wp-content/uploads/2016/03/shutterstock_304512785-300x300.jpg";
         default:
-          return "keine Angabe";
+          return "https://cdn.quasar.dev/img/boy-avatar.png";
       }
     }
   },
@@ -255,3 +260,22 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.Cookie--mytheme {
+  background: $dark;
+  color: #ffffff;
+  padding: 1.25em;
+}
+.Cookie__button {
+  background: $primary;
+  padding: 0.625em 3.125em;
+  color: #ffffff;
+  border-radius: 1;
+  border: 0;
+  font-size: 1em;
+  &:hover {
+    background: darken($primary, 10%);
+  }
+}
+</style>

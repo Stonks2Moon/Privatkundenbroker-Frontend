@@ -71,7 +71,7 @@
                   square
                   clearable
                   v-model="firstName"
-                  type="username"
+                  type="text"
                   :label="$t('firstname')"
                   lazy-rules=""
                   :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
@@ -85,7 +85,7 @@
                   square
                   clearable
                   v-model="lastName"
-                  type="username"
+                  type="text"
                   :label="$t('lastname')"
                   lazy-rules=""
                   :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
@@ -95,54 +95,61 @@
                   </template>
                 </q-input>
                 <q-input
-                  ref="birthday"
-                  :label="$t('birthday')"
-                  v-model="formattedDate"
+                  ref="street"
+                  square
+                  clearable
+                  v-model="street"
+                  type="text"
+                  :label="$t('street')"
                   lazy-rules=""
                   :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
                 >
                   <template v-slot:prepend>
-                    <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy
-                        ref="qDateProxy"
-                        transition-show="scale"
-                        transition-hide="scale"
-                      >
-                        <q-date
-                          color="primary"
-                          v-model="birthday"
-                          :subtitle="$t('birthday')"
-                          mask="YYYY-MM-DD"
-                        >
-                          <div class="row items-center justify-end">
-                            <q-btn
-                              v-close-popup
-                              :label="$t('close')"
-                              color="saporange"
-                              flat
-                            />
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
+                    <q-icon name="edit_road" />
                   </template>
                 </q-input>
-                <q-select
-                  ref="gender"
-                  v-model="gender"
-                  :options="genderOptions"
-                  option-value="ID"
-                  option-label="desc"
-                  emit-value
-                  map-options
-                  :label="$t('gender')"
+                <q-input
+                  ref="housenumber"
+                  square
+                  clearable
+                  v-model="housenumber"
+                  type="number"
+                  :label="$t('housenumber')"
                   lazy-rules=""
                   :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
                 >
                   <template v-slot:prepend>
-                    <q-icon name="transgender" />
+                    <q-icon name="tag" />
                   </template>
-                </q-select>
+                </q-input>
+                <q-input
+                  ref="postalCode"
+                  square
+                  clearable
+                  v-model="postalCode"
+                  type="number"
+                  :label="$t('postalCode')"
+                  lazy-rules=""
+                  :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="local_post_office" />
+                  </template>
+                </q-input>
+                <q-input
+                  ref="city"
+                  square
+                  clearable
+                  v-model="city"
+                  type="text"
+                  :label="$t('city')"
+                  lazy-rules=""
+                  :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="location_city" />
+                  </template>
+                </q-input>
               </q-card-section>
 
               <q-toggle
@@ -191,12 +198,10 @@ export default {
       birthday: null,
       firstName: null,
       lastName: null,
-      gender: null,
-      genderOptions: [
-        { desc: this.$t("male"), ID: "m" },
-        { desc: this.$t("female"), ID: "f" },
-        { desc: this.$t("divers"), ID: "x" }
-      ],
+      street: null,
+      housenumber: null,
+      postalCode: null,
+      city: null,
       accept: true
     };
   },
@@ -207,17 +212,21 @@ export default {
       this.$refs.lastName.validate();
       this.$refs.passwordFirst.validate();
       this.$refs.passwordSecond.validate();
-      this.$refs.birthday.validate();
-      this.$refs.gender.validate();
+      this.$refs.street.validate();
+      this.$refs.housenumber.validate();
+      this.$refs.postalCode.validate();
+      this.$refs.city.validate();
 
       if (
         this.$refs.firstName.hasError ||
         this.$refs.lastName.hasError ||
         this.$refs.email.hasError ||
-        this.$refs.birthday.hasError ||
         this.$refs.passwordFirst.hasError ||
         this.$refs.passwordSecond.hasError ||
-        this.$refs.gender.hasError
+        this.$refs.street.hasError ||
+        this.$refs.housenumber.hasError ||
+        this.$refs.postalCode.hasError ||
+        this.$refs.city.hasError
       ) {
         this.formHasError = true;
       } else if (this.passwordFirst !== this.passwordSecond) {
@@ -238,7 +247,7 @@ export default {
     register() {
       this.$axios
         .post(
-          `registerUser?email=${this.email}&password=${this.passwordFirst}&firstName=${this.firstName}&lastName=${this.lastName}&gender=${this.gender}&birthday=${this.birthday}`
+          `registerUser?email=${this.email}&password=${this.passwordFirst}&firstName=${this.firstName}&lastName=${this.lastName}&strasse=${this.street}&hausnummer=${this.housenumber}&postleitzahl=${this.postalCode}&ort=${this.city}`
         )
         .then(response => {
           var responseData = response.data;

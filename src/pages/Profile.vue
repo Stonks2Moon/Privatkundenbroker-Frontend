@@ -33,25 +33,33 @@
         <div class="col-sm-2 col-xs-3 text-left q-px-md">
           {{ $t("street") }}
         </div>
-        <q-input class="col-sm-10 col-xs-9" v-model="profile.street" readonly />
+        <q-input
+          class="col-sm-10 col-xs-9"
+          v-model="street"
+          @input="updateProfileData"
+        />
         <div class="col-sm-2 col-xs-3 text-left q-px-md">
           {{ $t("housenumber") }}
         </div>
         <q-input
           class="col-sm-10 col-xs-9"
-          v-model="profile.houseNumber"
-          readonly
+          v-model="houseNumber"
+          @input="updateProfileData"
         />
         <div class="col-sm-2 col-xs-3 text-left q-px-md">
           {{ $t("postalCode") }}
         </div>
         <q-input
           class="col-sm-10 col-xs-9"
-          v-model="profile.postalCode"
-          readonly
+          v-model="postalCode"
+          @input="updateProfileData"
         />
         <div class="col-sm-2 col-xs-3 text-left q-px-md">{{ $t("city") }}</div>
-        <q-input class="col-sm-10 col-xs-9" v-model="profile.city" readonly />
+        <q-input
+          class="col-sm-10 col-xs-9"
+          v-model="city"
+          @input="updateProfileData"
+        />
       </div>
     </div>
   </q-page>
@@ -72,17 +80,66 @@ export default {
         default:
           return "https://cdn.quasar.dev/img/boy-avatar.png";
       }
+    },
+    street: {
+      get() {
+        return this.$store.state.user.street;
+      },
+      set(val) {
+        this.$store.commit("user/updateStreet", val);
+      }
+    },
+    houseNumber: {
+      get() {
+        return this.$store.state.user.houseNumber;
+      },
+      set(val) {
+        this.$store.commit("user/updateHouseNumber", val);
+      }
+    },
+    postalCode: {
+      get() {
+        return this.$store.state.user.postalCode;
+      },
+      set(val) {
+        this.$store.commit("user/updatePostalCode", val);
+      }
+    },
+    city: {
+      get() {
+        return this.$store.state.user.city;
+      },
+      set(val) {
+        this.$store.commit("user/updateCity", val);
+      }
     }
-  },
-  watch: {},
-  created() {
-    this.profile = this.$store.state.user;
   },
   data() {
     return {
-      formattedDate: null
+      formattedDate: null,
+      profile: this.$store.state.user
     };
   },
-  methods: {}
+  methods: {
+    updateProfileData() {
+      this.$axios
+        .put(
+          `updateAdressDataOfUser?email=${this.profile.email}&hashedPassword=${this.profile.passwordHash}&strasse=${this.profile.street}&hausnummer=${this.profile.houseNumber}&postleitzahl=${this.profile.postalCode}&ort=${this.profile.city}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            var user = this.$store.state.user;
+            if (this.$store.state.settings.acceptedCookie) {
+              this.$q.cookies.set("cookie_moonStonks_user", user, {
+                expires: 10
+              });
+            }
+          } else {
+            console.log(responseData);
+          }
+        });
+    }
+  }
 };
 </script>

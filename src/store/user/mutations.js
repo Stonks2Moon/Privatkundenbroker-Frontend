@@ -25,3 +25,15 @@ export function resetState (state){
   state.city =  null,
   state.isAuthenticated = false
 }
+export function updateStreet(state, street){
+  state.street = street
+}
+export function updateHouseNumber(state, houseNumber){
+  state.houseNumber = houseNumber
+}
+export function updatePostalCode(state, postalCode){
+  state.postalCode = postalCode
+}
+export function updateCity(state, city){
+  state.city = city
+}

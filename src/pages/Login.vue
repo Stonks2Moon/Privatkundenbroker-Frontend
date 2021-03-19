@@ -105,15 +105,15 @@ export default {
             var responseData = response.data;
             if (responseData.success) {
               var user = {
-                ID: responseData.data[0].NutzerID,
+                ID: responseData.data.NutzerID,
                 email: this.email,
-                passwordHash: responseData.data[0].Passwort,
-                firstName: responseData.data[0].Vorname,
-                lastName: responseData.data[0].Nachname,
-                street: responseData.data[0].Strasse,
-                houseNumber: responseData.data[0].Hausnummer,
-                postalCode: responseData.data[0].Postleitzahl,
-                city: responseData.data[0].Ort
+                passwordHash: responseData.data.Passwort,
+                firstName: responseData.data.Vorname,
+                lastName: responseData.data.Nachname,
+                street: responseData.data.Strasse,
+                houseNumber: responseData.data.Hausnummer,
+                postalCode: responseData.data.Postleitzahl,
+                city: responseData.data.Ort
               };
               console.log(user);
               this.$store.commit("user/save", user);
@@ -186,7 +186,7 @@ export default {
               firstName: responseData.data.Vorname,
               lastName: responseData.data.Nachname,
               street: responseData.data.Strasse,
-              houseNumber: responseData.data.Hausnummmer,
+              houseNumber: responseData.data.Hausnummer,
               postalCode: responseData.data.Postleitzahl,
               city: responseData.data.Ort
             };

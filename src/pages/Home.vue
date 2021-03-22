@@ -2,17 +2,17 @@
   <q-page>
     <div class="q-pa-md">
       <div class="col q-ma-xs full-width no-wrap items-center">
-        <div class="row text-weight-bolder items-center" style="font-size:24px">
+        <div class="row text-weight-bolder items-center" style="font-size:22px">
           <q-icon name="insights" class="q-pr-md" />
           <div>{{ $t("depot") }}</div>
           <q-space />
           10000 €
         </div>
-        <div class="row text-weight-bolder items-center" style="font-size:24px">
+        <div class="row text-weight-bolder items-center" style="font-size:22px">
           <q-icon name="account_balance_wallet" class="q-pr-md" />
           <div>{{ $t("wallet") }}</div>
           <q-space />
-          {{ balance }} €
+          <div v-if="walletData.balance">{{ balance }} €</div>
         </div>
         <div class="q-pt-sm">{{ $t("newestTransactions") }} ...</div>
         <div v-if="walletData.transactions">

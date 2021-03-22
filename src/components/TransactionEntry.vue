@@ -1,23 +1,24 @@
 <template>
-  <div :class="transaction.Betrag <= 0 ? 'bg-red' : 'bg-green'">
-    <div class="col q-my-md q-px-md q-py-xs shadow-3">
-      <div class="row" style="font-size:20px">
-        <div>{{ description }}</div>
+  <div
+    :class="transaction.Betrag <= 0 ? 'bg-red' : 'bg-green'"
+    class="col q-my-md q-px-md q-py-xs shadow-3 rounded-borders"
+  >
+    <div class="row" style="font-size:20px">
+      <div>{{ description }}</div>
 
-        <q-space />
-        <div>{{ costs }} €</div>
+      <q-space />
+      <div>{{ costs }} €</div>
+    </div>
+    <div class="row">
+      <div class="text-caption text-bold">
+        {{ formattedDate }}
       </div>
-      <div class="row">
-        <div class="text-caption text-bold">
-          {{ formattedDate }}
-        </div>
-        <q-space />
-        <div class="text-caption" v-if="!isShareBuyOrSell">
-          {{ destination }} {{ transaction.Zielkonto }}
-        </div>
-        <div class="text-caption" v-if="isShareBuyOrSell">
-          {{ $t("amount") }}: {{ shareAmount }}
-        </div>
+      <q-space />
+      <div class="text-caption" v-if="!isShareBuyOrSell">
+        {{ destination }} {{ transaction.Zielkonto }}
+      </div>
+      <div class="text-caption" v-if="isShareBuyOrSell">
+        {{ $t("amount") }}: {{ shareAmount }}
       </div>
     </div>
   </div>

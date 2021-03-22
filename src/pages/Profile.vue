@@ -10,90 +10,90 @@
         </q-avatar>
       </div>
       <div class="row items-center">
-        <div class="col-sm-2 col-xs-3 text-left q-px-md">
+        <div class="col-sm-2 col-xs-5 text-left q-px-md">
           {{ $t("customerID") }}
         </div>
-        <q-input class="col-sm-10 col-xs-9" v-model="profile.ID" readonly />
-        <div class="col-sm-2 col-xs-3 text-left q-px-md">
+        <q-input class="col-sm-10 col-xs-7" v-model="profile.ID" readonly />
+        <div class="col-sm-2 col-xs-5 text-left q-px-md">
           {{ $t("firstname") }}
         </div>
         <q-input
-          class="col-sm-10 col-xs-9"
+          class="col-sm-10 col-xs-7"
           v-model="profile.firstName"
           readonly
         />
-        <div class="col-sm-2 col-xs-3 text-left q-px-md">
+        <div class="col-sm-2 col-xs-5 text-left q-px-md">
           {{ $t("lastname") }}
         </div>
         <q-input
-          class="col-sm-10 col-xs-9"
+          class="col-sm-10 col-xs-7"
           v-model="profile.lastName"
           readonly
         />
-        <div class="col-sm-2 col-xs-3 text-left q-px-md">
+        <div class="col-sm-2 col-xs-5 text-left q-px-md">
           {{ $t("street") }}
         </div>
         <q-input
-          class="col-sm-10 col-xs-9"
+          class="col-sm-10 col-xs-7"
           v-model="street"
           @input="updateProfileData"
         />
-        <div class="col-sm-2 col-xs-3 text-left q-px-md">
+        <div class="col-sm-2 col-xs-5 text-left q-px-md">
           {{ $t("housenumber") }}
         </div>
         <q-input
-          class="col-sm-10 col-xs-9"
+          class="col-sm-10 col-xs-7"
           v-model="houseNumber"
           @input="updateProfileData"
         />
-        <div class="col-sm-2 col-xs-3 text-left q-px-md">
+        <div class="col-sm-2 col-xs-5 text-left q-px-md">
           {{ $t("postalCode") }}
         </div>
         <q-input
-          class="col-sm-10 col-xs-9"
+          class="col-sm-10 col-xs-7"
           v-model="postalCode"
           @input="updateProfileData"
         />
-        <div class="col-sm-2 col-xs-3 text-left q-px-md">{{ $t("city") }}</div>
+        <div class="col-sm-2 col-xs-5 text-left q-px-md">{{ $t("city") }}</div>
         <q-input
-          class="col-sm-10 col-xs-9"
+          class="col-sm-10 col-xs-7"
           v-model="city"
           @input="updateProfileData"
         />
       </div>
 
       <form @submit.prevent.stop="onSubmit" class="q-pt-lg">
-        <div class="col-sm-2 col-xs-3 text-left text-h6 ">
+        <div class="col-sm-2 col-xs-5 text-left text-h6 ">
           {{ $t("changePassword") }}
         </div>
         <div class="row items-center">
-          <div class="col-sm-2 col-xs-3 text-left q-px-md">
+          <div class="col-sm-2 col-xs-5 text-left q-px-md">
             {{ $t("oldPassword") }}
           </div>
           <q-input
-            class="col-sm-10 col-xs-9"
+            class="col-sm-10 col-xs-7"
             type="password"
             ref="oldPassword"
             v-model="oldPassword"
             lazy-rules=""
             :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
           />
-          <div class="col-sm-2 col-xs-3 text-left q-px-md">
+          <div class="col-sm-2 col-xs-5 text-left q-px-md">
             {{ $t("newPassword") }}
           </div>
           <q-input
-            class="col-sm-10 col-xs-9"
+            class="col-sm-10 col-xs-7"
             type="password"
             ref="newPassword"
             v-model="newPassword"
             lazy-rules=""
             :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
           />
-          <div class="col-sm-2 col-xs-3 text-left q-px-md">
+          <div class="col-sm-2 col-xs-5 text-left q-px-md">
             {{ $t("repeatNewPassword") }}
           </div>
           <q-input
-            class="col-sm-10 col-xs-9"
+            class="col-sm-10 col-xs-7"
             type="password"
             ref="repeateNewPassword"
             v-model="repeateNewPassword"
@@ -127,7 +127,7 @@ export default {
         case "f":
           return "https://cdn.quasar.dev/img/avatar.png";
         case "x":
-          return "https://www.humanium.org/es/wp-content/uploads/2016/03/shutterstock_304512785-300x300.jpg";
+          return "https://www.humanium.org/es/wp-content/uploads/2016/05/shutterstock_504512785-500x500.jpg";
         default:
           return "https://cdn.quasar.dev/img/boy-avatar.png";
       }

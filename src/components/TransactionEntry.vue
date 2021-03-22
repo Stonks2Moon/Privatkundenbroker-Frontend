@@ -3,8 +3,8 @@
     :class="transaction.Betrag <= 0 ? 'bg-red' : 'bg-green'"
     class="col q-my-md q-px-md q-py-xs shadow-3 rounded-borders"
   >
-    <div class="row" style="font-size:20px">
-      <div>{{ description }}</div>
+    <div class="row no-wrap items-center" style="font-size:20px">
+      <div class="col">{{ description }}</div>
 
       <q-space />
       <div>{{ costs }} €</div>

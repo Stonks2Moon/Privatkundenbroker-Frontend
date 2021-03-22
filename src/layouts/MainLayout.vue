@@ -196,7 +196,7 @@ export default {
       return [
         {
           title: this.$t("overview"),
-          icon: "account_balance_wallet",
+          icon: "pie_chart",
           link: "/home"
         },
         {

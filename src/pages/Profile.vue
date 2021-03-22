@@ -61,6 +61,57 @@
           @input="updateProfileData"
         />
       </div>
+
+      <form @submit.prevent.stop="onSubmit" class="q-pt-lg">
+        <div class="col-sm-2 col-xs-3 text-left text-h6 ">
+          {{ $t("changePassword") }}
+        </div>
+        <div class="row items-center">
+          <div class="col-sm-2 col-xs-3 text-left q-px-md">
+            {{ $t("oldPassword") }}
+          </div>
+          <q-input
+            class="col-sm-10 col-xs-9"
+            type="password"
+            ref="oldPassword"
+            v-model="oldPassword"
+            lazy-rules=""
+            :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
+          />
+          <div class="col-sm-2 col-xs-3 text-left q-px-md">
+            {{ $t("newPassword") }}
+          </div>
+          <q-input
+            class="col-sm-10 col-xs-9"
+            type="password"
+            ref="newPassword"
+            v-model="newPassword"
+            lazy-rules=""
+            :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
+          />
+          <div class="col-sm-2 col-xs-3 text-left q-px-md">
+            {{ $t("repeatNewPassword") }}
+          </div>
+          <q-input
+            class="col-sm-10 col-xs-9"
+            type="password"
+            ref="repeateNewPassword"
+            v-model="repeateNewPassword"
+            lazy-rules=""
+            :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
+          />
+          <div class="full-width text-center">
+            <q-btn
+              type="submit"
+              unelevated
+              no-caps
+              size="lg"
+              color="primary"
+              :label="$t('changePassword')"
+            />
+          </div>
+        </div>
+      </form>
     </div>
   </q-page>
 </template>
@@ -116,7 +167,9 @@ export default {
   },
   data() {
     return {
-      formattedDate: null,
+      oldPassword: null,
+      newPassword: null,
+      repeateNewPassword: null,
       profile: this.$store.state.user
     };
   },
@@ -135,6 +188,56 @@ export default {
                 expires: 10
               });
             }
+          } else {
+            console.log(responseData);
+          }
+        });
+    },
+    onSubmit() {
+      this.$refs.oldPassword.validate();
+      this.$refs.newPassword.validate();
+      this.$refs.repeateNewPassword.validate();
+
+      if (
+        this.$refs.oldPassword.hasError ||
+        this.$refs.newPassword.hasError ||
+        this.$refs.repeateNewPassword.hasError
+      ) {
+        this.formHasError = true;
+      } else if (this.newPassword !== this.repeateNewPassword) {
+        this.formHasError = true;
+        this.$q.notify({
+          color: "negative",
+          message: this.$t("passwordNotEqual") + "!"
+        });
+      } else {
+        this.changePassword();
+      }
+    },
+    changePassword() {
+      this.$axios
+        .put(
+          `updatePasswordOfUser?email=${this.profile.email}&oldPassword=${this.oldPassword}&newPassword=${this.newPassword}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            console.log(responseData);
+            /*var user = this.$store.state.user;
+            if (this.$store.state.settings.acceptedCookie) {
+              this.$q.cookies.set("cookie_moonStonks_user", user, {
+                expires: 10
+              });
+            }*/
+            this.$q.notify({
+              color: "positive",
+              message: responseData.message
+            });
+          } else if (!responseData.success) {
+            this.$q.notify({
+              color: "negative",
+              message: responseData.message
+            });
           } else {
             console.log(responseData);
           }

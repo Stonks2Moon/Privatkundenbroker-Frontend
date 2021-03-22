@@ -6,13 +6,15 @@
           <q-icon name="clear_all" class="q-pr-md" />
           <div>{{ $t("transactions") }}</div>
           <q-space />
-          {{ walletData.balance }} €
+          {{ balance }} €
         </div>
-        <TransactionEntry
-          v-for="transaction in walletData.transactions"
-          :key="transaction.TransaktionsID"
-          :transaction="transaction"
-        />
+        <div v-if="walletData.transactions">
+          <TransactionEntry
+            v-for="transaction in walletData.transactions"
+            :key="transaction.TransaktionsID"
+            :transaction="transaction"
+          />
+        </div>
       </div>
     </div>
   </q-page>
@@ -22,11 +24,15 @@
 import TransactionEntry from "components/TransactionEntry.vue";
 export default {
   components: { TransactionEntry },
-  computed: {},
+  computed: {
+    balance() {
+      return Number(this.walletData.balance).toFixed(2);
+    }
+  },
   watch: {},
   data() {
     return {
-      walletData: null
+      walletData: []
     };
   },
   created() {
@@ -42,7 +48,6 @@ export default {
           var responseData = response.data;
           if (responseData.success) {
             this.walletData = responseData.data;
-            console.log(responseData);
           } else {
             console.log(responseData);
           }

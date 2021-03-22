@@ -6,21 +6,22 @@
           <q-icon name="insights" class="q-pr-md" />
           <div>{{ $t("depot") }}</div>
           <q-space />
-          10.000 €
+          10000 €
         </div>
         <div class="row text-weight-bolder items-center" style="font-size:24px">
           <q-icon name="account_balance_wallet" class="q-pr-md" />
           <div>{{ $t("wallet") }}</div>
           <q-space />
-          {{ walletData.balance }} €
+          {{ balance }} €
         </div>
         <div class="q-pt-sm">{{ $t("newestTransactions") }} ...</div>
-        <TransactionEntry
-          v-for="transaction in walletData.transactions"
-          :key="transaction.TransaktionsID"
-          :transaction="transaction"
-        />
-        {{ walletData }}
+        <div v-if="walletData.transactions">
+          <TransactionEntry
+            v-for="transaction in walletData.transactions.slice(0, 4)"
+            :key="transaction.TransaktionsID"
+            :transaction="transaction"
+          />
+        </div>
       </div>
     </div>
   </q-page>
@@ -30,7 +31,11 @@
 import TransactionEntry from "components/TransactionEntry.vue";
 export default {
   components: { TransactionEntry },
-  computed: {},
+  computed: {
+    balance() {
+      return Number(this.walletData.balance).toFixed(2);
+    }
+  },
   watch: {},
   data() {
     return {
@@ -50,7 +55,6 @@ export default {
           var responseData = response.data;
           if (responseData.success) {
             this.walletData = responseData.data;
-            console.log(responseData);
           } else {
             console.log(responseData);
           }

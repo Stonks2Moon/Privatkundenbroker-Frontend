@@ -1,11 +1,11 @@
 <template>
   <div :class="transaction.Betrag <= 0 ? 'bg-red' : 'bg-green'">
-    <div class="col q-my-md q-px-md q-py-xs">
+    <div class="col q-my-md q-px-md q-py-xs shadow-3">
       <div class="row" style="font-size:20px">
         <div>{{ description }}</div>
 
         <q-space />
-        <div>{{ transaction.Betrag }} €</div>
+        <div>{{ costs }} €</div>
       </div>
       <div class="row">
         <div class="text-caption text-bold">
@@ -13,7 +13,10 @@
         </div>
         <q-space />
         <div class="text-caption" v-if="!isShareBuyOrSell">
-          {{ transaction.Zielkonto }}
+          {{ destination }} {{ transaction.Zielkonto }}
+        </div>
+        <div class="text-caption" v-if="isShareBuyOrSell">
+          {{ $t("amount") }}: {{ shareAmount }}
         </div>
       </div>
     </div>
@@ -38,6 +41,9 @@ export default {
         this.$store.state.settings.language
       );
     },
+    costs() {
+      return Number(this.transaction.Betrag).toFixed(2);
+    },
     description() {
       var description = this.transaction.Beschreibung;
       switch (description) {
@@ -46,8 +52,8 @@ export default {
         case "Auszahlung":
           return this.$t("withdrawal");
       }
+      let descriptionSplit = description.split(":");
       if (description.includes("Aktienkauf")) {
-        let descriptionSplit = description.split(":");
         return this.$t("shareBuy") + ": " + descriptionSplit[1];
       } else if (description.includes("Aktienverkauf")) {
         return this.$t("shareSell") + ": " + descriptionSplit[1];
@@ -60,6 +66,23 @@ export default {
         return true;
       } else {
         return false;
+      }
+    },
+    destination() {
+      if (this.transaction.Beschreibung.includes("Einzahlung")) {
+        return this.$t("fromDestination") + ": ";
+      } else if (this.transaction.Beschreibung.includes("Auszahlung")) {
+        return this.$t("toDestination") + ": ";
+      } else {
+        return "";
+      }
+    },
+    shareAmount() {
+      if (this.transaction.Beschreibung.includes("Aktien")) {
+        let descriptionSplit = this.transaction.Beschreibung.split(":");
+        return descriptionSplit[1];
+      } else {
+        return "";
       }
     }
   }

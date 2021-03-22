@@ -222,21 +222,22 @@ export default {
         .then(response => {
           var responseData = response.data;
           if (responseData.success) {
-            console.log(responseData);
-            /*var user = this.$store.state.user;
+            var passwordHash = responseData.additionalInfo.newPasswordHash;
+            this.$store.commit("user/updatePasswordHash", passwordHash);
+            var user = this.$store.state.user;
             if (this.$store.state.settings.acceptedCookie) {
               this.$q.cookies.set("cookie_moonStonks_user", user, {
                 expires: 10
               });
-            }*/
+            }
             this.$q.notify({
               color: "positive",
-              message: responseData.message
+              message: this.$t("successfulPasswordChange")
             });
           } else if (!responseData.success) {
             this.$q.notify({
               color: "negative",
-              message: responseData.message
+              message: this.$t("failedPasswordChange")
             });
           } else {
             console.log(responseData);

@@ -37,3 +37,6 @@ export function updatePostalCode(state, postalCode){
 export function updateCity(state, city){
   state.city = city
 }
+export function updatePasswordHash(state, passwordHash){
+  state.passwordHash = passwordHash
+}

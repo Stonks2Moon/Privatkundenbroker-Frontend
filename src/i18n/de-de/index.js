@@ -61,4 +61,11 @@ export default {
   searchStock:'Suche deine gewünschte Aktie',
   stock: "Aktie",
   popularStocks: "Beliebte Aktien",
+  buy: "Kaufen",
+  sell: "Verkaufen",
+  orderType: 'Order-Typ',
+  price: "Preis",
+  onlyPositiveNumber: "Nur positive Zahlen erlaubt",
+  overallCalculatedPrice: "Vorläufiger Order-Preis",
+  placeOrder: "Order aufgeben"
 }

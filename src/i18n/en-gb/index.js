@@ -61,4 +61,11 @@ export default {
   searchStock:'Search your Stock',
   stock: "Stock",
   popularStocks: "Popular Stocks",
+  buy: "Buy",
+  sell: "Sell",
+  orderType: 'Order-Type',
+  price: "Price",
+  onlyPositiveNumber: "Only positive numbers allowed",
+  overallCalculatedPrice: "Temporarily Order-Price",
+  placeOrder: "Place Order"
 }

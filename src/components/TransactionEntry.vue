@@ -38,9 +38,14 @@ export default {
   },
   computed: {
     formattedDate() {
-      return new Date(this.transaction.Datum).toLocaleDateString(
-        this.$store.state.settings.language
-      );
+      switch (this.$store.state.settings.language) {
+        case "de-de":
+          return new Date(this.transaction.Datum).toLocaleDateString("de-de");
+        case "en-gb":
+          return new Date(this.transaction.Datum).toLocaleDateString("en-gb");
+        default:
+          return new Date(this.transaction.Datum).toLocaleDateString("de-de");
+      }
     },
     costs() {
       return Number(this.transaction.Betrag).toFixed(2);

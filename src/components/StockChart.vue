@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div
+    class="row bg-red-3 justify-center items-center"
+    style="min-width: 300px; max-width:400px; min-height:300px; max-height:400px;"
+  >
     Chart
   </div>
 </template>

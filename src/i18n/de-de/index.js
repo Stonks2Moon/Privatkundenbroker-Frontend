@@ -67,5 +67,7 @@ export default {
   price: "Preis",
   onlyPositiveNumber: "Nur positive Zahlen erlaubt",
   overallCalculatedPrice: "Vorläufiger Order-Preis",
-  placeOrder: "Order aufgeben"
+  placeOrder: "Order aufgeben",
+  stop: "Stop",
+  limit: "Limit",
 }

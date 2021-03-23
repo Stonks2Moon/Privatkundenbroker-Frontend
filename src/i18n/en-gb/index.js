@@ -67,5 +67,7 @@ export default {
   price: "Price",
   onlyPositiveNumber: "Only positive numbers allowed",
   overallCalculatedPrice: "Temporarily Order-Price",
-  placeOrder: "Place Order"
+  placeOrder: "Place Order",
+  stop: "Stop",
+  limit: "Limit",
 }

@@ -1,7 +1,7 @@
 <template>
   <div
     :class="transaction.Betrag <= 0 ? 'bg-red' : 'bg-green'"
-    class="col q-my-md q-px-md q-py-xs shadow-3 rounded-borders"
+    class="col q-my-md q-pa-sm shadow-3 rounded-borders"
   >
     <div class="row no-wrap items-center" style="font-size:20px">
       <div class="col">{{ description }}</div>

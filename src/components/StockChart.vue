@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-none echarts">
-    <IEcharts :option="barChartOption" :resizable="true" />
+  <div class="q-pa-none full-width" style="height:400px">
+    <IEcharts class="q-mx-sm" :option="barChartOption" :resizable="true" />
   </div>
 </template>
 
@@ -40,9 +40,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-.echarts {
-  width: 400px;
-  height: 400px;
-}
-</style>

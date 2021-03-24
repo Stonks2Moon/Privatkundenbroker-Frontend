@@ -8,9 +8,10 @@
           <q-space />
           {{ depotBalance }}
         </div>
-        <div v-if="depotData">
+        <div class="col q-pt-sm" v-if="depotData">
+          <PieChart :depotData="depotData.positions" />
           <DepotEntry
-            v-for="stockData in depotData.positions.slice(0, 1)"
+            v-for="stockData in depotData.positions"
             :key="stockData.ID"
             :stockData="stockData"
           />
@@ -52,8 +53,9 @@
 import TransactionEntry from "components/TransactionEntry.vue";
 import DepotEntry from "components/DepotEntry.vue";
 import OpenOrderEntry from "components/OpenOrderEntry.vue";
+import PieChart from "components/PieChart.vue";
 export default {
-  components: { TransactionEntry, DepotEntry, OpenOrderEntry },
+  components: { TransactionEntry, DepotEntry, OpenOrderEntry, PieChart },
   computed: {
     walletBalance() {
       return Number(this.walletData.balance).toFixed(2);
@@ -67,13 +69,13 @@ export default {
     return {
       walletData: [],
       depotData: {
-        balance: 1035.6,
+        balance: 4581.3,
         positions: [
           {
             ID: 1,
             name: "Apple",
             WKN: "865985",
-            amount: 10,
+            amount: 16,
             buyPrice: 98.56,
             actualPrice: 103.56
           },
@@ -92,6 +94,14 @@ export default {
             amount: 200,
             buyPrice: 2.98,
             actualPrice: 2.52
+          },
+          {
+            ID: 4,
+            name: "TUI",
+            WKN: "TUAG00",
+            amount: 100,
+            buyPrice: 2.56,
+            actualPrice: 4.38
           }
         ]
       },

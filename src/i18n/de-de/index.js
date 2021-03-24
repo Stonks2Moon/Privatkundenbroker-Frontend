@@ -59,6 +59,7 @@ export default {
   wallet: 'Verrechnungskonto',
   depot: 'Depot',
   openOrders: "Offene Order",
+  value: 'Wert',
   buyPrice: "Kaufkurs",
   actualPrice: "Akt. Kurs",
   winOrLost: "G/V",

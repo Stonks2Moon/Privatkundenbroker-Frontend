@@ -44,7 +44,7 @@
           <div v-else>{{ trendAbsolute }} €</div>
         </q-item>
       </div>
-      <StockChart :chartData="chartData" />
+      <StockChart />
 
       <q-card
         class="column shadow-20 bg-dark q-ma-md"

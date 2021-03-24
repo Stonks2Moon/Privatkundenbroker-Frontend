@@ -1,24 +1,48 @@
 <template>
-  <div
-    class="row bg-red-3 justify-center items-center"
-    style="min-width: 300px; max-width:400px; min-height:300px; max-height:400px;"
-  >
-    Chart
+  <div class="q-pa-none echarts">
+    <IEcharts :option="barChartOption" :resizable="true" />
   </div>
 </template>
 
 <script>
+import IEcharts from "vue-echarts-v3/src/full.js";
 export default {
   name: "StockChart",
-  data() {
-    return {};
-  },
   props: {
-    chartData: {
-      type: Array,
-      required: true
+    historyData: {
+      type: Object,
+      required: false
     }
   },
-  methods: {}
+  data() {
+    return {
+      barChartOption: {
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [
+          {
+            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            type: "line",
+            areaStyle: {}
+          }
+        ]
+      }
+    };
+  },
+  components: {
+    IEcharts
+  }
 };
 </script>
+<style scoped>
+.echarts {
+  width: 400px;
+  height: 400px;
+}
+</style>

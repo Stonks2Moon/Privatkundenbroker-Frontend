@@ -59,6 +59,7 @@ export default {
   wallet: 'Wallet',
   depot: 'Depot',
   openOrders: "Open Order",
+  value: 'Value',
   buyPrice: "Buyrate",
   actualPrice: "Act. Rate",
   winOrLost: "P/L",

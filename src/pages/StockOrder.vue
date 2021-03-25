@@ -44,12 +44,9 @@
           <div v-else>{{ trendAbsolute }} €</div>
         </q-item>
       </div>
-      <StockChart />
+      <StockChart :historyData="historyData" />
 
-      <q-card
-        class="column shadow-20 bg-dark q-ma-md"
-        style="min-width:325px; height:615px;"
-      >
+      <q-card class="column shadow-10 full-width bg-dark q-ma-md">
         <q-card-section>
           <div class="row no-wrap items-center">
             <q-btn
@@ -357,6 +354,20 @@ export default {
         ISIN: "US0378331005",
         aktuellerPreis: 103.0,
         vortagesPreis: 102.0
+      },
+      historyData: {
+        name: "Apple",
+        chartData: [
+          [new Date("2020-03-20T04:25:00"), 190],
+          [new Date("2020-03-21T06:52:00"), 195],
+          [new Date("2020-03-22T07:21:00"), 180],
+          [new Date("2020-03-23T13:39:00"), 175],
+          [new Date("2020-03-24T15:54:00"), 166],
+          [new Date("2020-03-25T12:18:00"), 143],
+          [new Date("2020-03-26T04:57:00"), 156],
+          [new Date("2020-03-27T03:04:00"), 176],
+          [new Date("2020-03-28T020:01:00"), 190]
+        ]
       }
     };
   },

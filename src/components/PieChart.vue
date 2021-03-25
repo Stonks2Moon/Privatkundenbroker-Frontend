@@ -1,5 +1,8 @@
 <template>
-  <div class="full-width bg-dark shadow-3" style="height:350px;">
+  <div
+    class="full-width bg-dark shadow-3 rounded-borders"
+    style="height:350px;"
+  >
     <IEcharts :option="barChartOption" :resizable="true" />
   </div>
 </template>

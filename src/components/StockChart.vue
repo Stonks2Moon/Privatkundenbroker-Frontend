@@ -1,5 +1,8 @@
 <template>
-  <div class="q-pa-none full-width shadow-10" style="height:400px">
+  <div
+    class="q-pa-none full-width shadow-10 bg-dark rounded-borders"
+    style="height:400px"
+  >
     <IEcharts class="q-mx-sm" :option="barChartOption" :resizable="true" />
   </div>
 </template>

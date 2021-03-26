@@ -1,22 +1,27 @@
 <template>
   <q-page padding>
     <div class="row items-center">
-      <div class="row col-md-2 col-xs-10  items-center">
-        <q-btn round flat size="16px" icon="navigate_before" to="/order" />
+      <div class="row col-md-2 col-xs-10 items-center">
+        {{ $store.state.user.depotID }}
+        <q-btn
+          round
+          padding="none"
+          flat
+          size="22px"
+          icon="navigate_before"
+          to="/order"
+        />
         <div class="text-h5 text-weight-bold">
           {{ stockData.name }}
         </div>
       </div>
       <q-space />
       <div class="row col-md-10 col-xs-12">
-        <div class="row text-caption items-center q-pr-md no-wrap">
-          WKN:
-          <div class="text-body2">{{ stockData.WKN }}</div>
-        </div>
-        <div class="row text-caption items-center no-wrap">
+        <q-space />
+        <!--<div class="row text-caption items-center no-wrap">
           ISIN:
-          <div class="text-body2">{{ stockData.ISIN }}</div>
-        </div>
+          <div class="text-body2 q-pl-xs">{{ stockID }}</div>
+        </div>-->
       </div>
     </div>
 
@@ -31,20 +36,26 @@
         <q-item
           clickable
           dense
-          class="q-pa-xs text-bold items-center"
+          class="q-pa-xs rounded-borders text-bold items-center"
           :class="'bg-' + statusColor"
           style="min-width:85px;"
           @click="toggleTrendData"
         >
           <q-icon
-            :name="trendAbsolute < 0 ? 'arrow_drop_down' : 'arrow_drop_up'"
+            :name="
+              trendAbsolute < 0
+                ? 'arrow_drop_down'
+                : Number(trendAbsolute) === 0
+                ? 'horizontal_rule'
+                : 'arrow_drop_up'
+            "
             size="150%"
           />
           <div v-if="showPercentageTrendData">{{ trendPercentage }} %</div>
           <div v-else>{{ trendAbsolute }} €</div>
         </q-item>
       </div>
-      <StockChart :historyData="historyData" />
+      <StockChart :historyData="historyData" :name="stockData.name" />
 
       <q-card class="column shadow-10 full-width bg-dark q-ma-md">
         <q-card-section>
@@ -84,10 +95,10 @@
               :label="$t('price')"
               suffix="€"
             >
-              <template v-slot:prepend>
+              <template v-slot:append>
                 <q-btn flat round icon="add" @click="growPriceForLimitOrder" />
               </template>
-              <template v-slot:append>
+              <template v-slot:prepend>
                 <q-btn
                   flat
                   round
@@ -106,10 +117,10 @@
               hide-bottom-space
               :label="$t('amount')"
             >
-              <template v-slot:prepend>
+              <template v-slot:append>
                 <q-btn flat round icon="add" @click="growAmountOfShares" />
               </template>
-              <template v-slot:append>
+              <template v-slot:prepend>
                 <q-btn flat round icon="remove" @click="reduceAmountOfShares" />
               </template>
             </q-input>
@@ -135,10 +146,10 @@
               hide-bottom-space
               :label="$t('amount')"
             >
-              <template v-slot:prepend>
+              <template v-slot:append>
                 <q-btn flat round icon="add" @click="growAmountOfShares" />
               </template>
-              <template v-slot:append>
+              <template v-slot:prepend>
                 <q-btn flat round icon="remove" @click="reduceAmountOfShares" />
               </template>
             </q-input>
@@ -162,7 +173,7 @@
               :label="$t('stop')"
               suffix="€"
             >
-              <template v-slot:prepend>
+              <template v-slot:append>
                 <q-btn
                   flat
                   round
@@ -170,7 +181,7 @@
                   @click="growStopForStopLimitOrder"
                 />
               </template>
-              <template v-slot:append>
+              <template v-slot:prepend>
                 <q-btn
                   flat
                   round
@@ -189,7 +200,7 @@
               hide-bottom-space
               :label="$t('limit')"
             >
-              <template v-slot:prepend>
+              <template v-slot:append>
                 <q-btn
                   flat
                   round
@@ -197,7 +208,7 @@
                   @click="growLimitForStopLimitOrder"
                 />
               </template>
-              <template v-slot:append>
+              <template v-slot:prepend>
                 <q-btn
                   flat
                   round
@@ -216,10 +227,10 @@
               hide-bottom-space
               :label="$t('amount')"
             >
-              <template v-slot:prepend>
+              <template v-slot:append>
                 <q-btn flat round icon="add" @click="growAmountOfShares" />
               </template>
-              <template v-slot:append>
+              <template v-slot:prepend>
                 <q-btn flat round icon="remove" @click="reduceAmountOfShares" />
               </template>
             </q-input>
@@ -253,6 +264,7 @@
             no-caps
             class="full-width"
             color="primary"
+            @click="createMarketOrder"
           />
         </q-card-section>
         <q-card-section v-if="selectedOrderType === 'Stop-Limit'">
@@ -277,22 +289,22 @@ export default {
   created() {
     this.stockID = this.$route.params.stockID;
     this.loadShareData();
-    this.limitOrderPrice = this.stockPrice;
+    this.loadShareHistoryData();
+    //this.limitOrderPrice = this.stockData.price;
   },
   computed: {
     trendPercentage() {
       return Number(
-        (this.stockData.aktuellerPreis / this.stockData.vortagesPreis) * 100 -
-          100
+        (this.stockData.price / this.stockData.priceOfLastNight) * 100 - 100
       ).toFixed(2);
     },
     trendAbsolute() {
       return Number(
-        this.stockData.aktuellerPreis - this.stockData.vortagesPreis
+        this.stockData.price - this.stockData.priceOfLastNight
       ).toFixed(2);
     },
     stockPrice() {
-      return Number(this.stockData.aktuellerPreis).toFixed(2);
+      return Number(this.stockData.price).toFixed(2);
     },
     limitOrderPriceDecimal() {
       return Number(this.limitOrderPrice).toFixed(2);
@@ -309,7 +321,7 @@ export default {
     },
     calculatedPriceForMarketOrder() {
       var calcPrice = Number(
-        this.stockData.aktuellerPreis * this.amountOfShares
+        this.stockData.price * this.amountOfShares
       ).toFixed(2);
       if (Number(calcPrice) !== 0.0) {
         return calcPrice;
@@ -347,32 +359,74 @@ export default {
       stopForStopLimitOrderPrice: 0,
       limitForStopLimitOrderPrice: 0,
       amountOfShares: 0,
-      stockData: {
-        ID: 1,
-        name: "Apple",
-        WKN: 865985,
-        ISIN: "US0378331005",
-        aktuellerPreis: 103.0,
-        vortagesPreis: 102.0
-      },
-      historyData: {
-        name: "Apple",
-        chartData: [
-          [new Date("2020-03-20T04:25:00"), 190],
-          [new Date("2020-03-21T06:52:00"), 195],
-          [new Date("2020-03-22T07:21:00"), 180],
-          [new Date("2020-03-23T13:39:00"), 175],
-          [new Date("2020-03-24T15:54:00"), 166],
-          [new Date("2020-03-25T12:18:00"), 143],
-          [new Date("2020-03-26T04:57:00"), 156],
-          [new Date("2020-03-27T03:04:00"), 176],
-          [new Date("2020-03-28T020:01:00"), 190]
-        ]
-      }
+      stockData: [],
+      historyData: []
     };
   },
   methods: {
-    loadShareData() {},
+    loadShareData() {
+      this.$axios
+        .get(
+          `getShare?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&shareID=${this.stockID}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            this.stockData = responseData.data;
+            console.log(this.stockData);
+            this.getLatestPrice();
+          } else {
+            console.log(responseData);
+          }
+        });
+    },
+    createMarketOrder() {
+      this.$axios
+        .post(
+          `buyOrder?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&depotID=${this.$store.state.user.depotID}&shareID=${this.stockID}&type=${this.selectedOrderType}&amount=${this.amountOfShares}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            var response = responseData.data;
+            console.log(response);
+            this.amountOfShares = 0;
+          } else {
+            console.log(responseData);
+          }
+        });
+    },
+    loadShareHistoryData() {
+      this.$axios
+        .get(
+          `getPriceDevelopmentOfShare?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&shareID=${this.stockID}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            this.historyData = responseData.data;
+            console.log(this.historyData);
+          } else {
+            console.log(responseData);
+          }
+        });
+    },
+    getLatestPrice() {
+      this.$axios
+        .get(
+          `getPriceOfShare?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&shareID=${this.stockID}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            this.stockData.price = responseData.data;
+            this.limitOrderPrice = this.stockData.price;
+            console.log(this.historyData);
+          } else {
+            console.log(responseData);
+          }
+        });
+    },
     toggleTrendData() {
       this.showPercentageTrendData = !this.showPercentageTrendData;
     },

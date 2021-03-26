@@ -5,7 +5,7 @@
         filled
         v-model="searchStock"
         :placeholder="$t('searchStock') + ' ...'"
-        @input="getRelatedStocks"
+        @input="getReleventStocks"
       >
         <template v-slot:prepend>
           <q-icon name="search" />
@@ -15,15 +15,15 @@
           <q-icon
             v-if="searchStock !== ''"
             name="close"
-            @click="text = ''"
+            @click="searchStock = ''"
             class="cursor-pointer"
           />
         </template>
       </q-input>
 
-      <div class="col q-py-md q-px-xs q-gutter-md" v-if="stockList">
+      <div class="col q-py-md q-px-xs q-gutter-md" v-if="relevantStocks">
         <StockSearchListEntry
-          v-for="stock in stockList"
+          v-for="stock in relevantStocks"
           :key="stock.ID"
           :stock="stock"
         />
@@ -31,9 +31,9 @@
 
       <div class="text-h5 text-weight-bolder">{{ $t("popularStocks") }}</div>
 
-      <div class="col q-py-md q-px-xs q-gutter-md">
+      <div class="col q-py-md q-px-xs q-gutter-md" v-if="stockList">
         <StockSearchListEntry
-          v-for="stock in popularStockList"
+          v-for="stock in stockList"
           :key="stock.ID"
           :stock="stock"
         />
@@ -50,24 +50,40 @@ export default {
   data() {
     return {
       searchStock: "",
-      stockList: [
-        { ID: 1, name: "Apple", info: "USA, Technologie" },
-        { ID: 2, name: "Tesla", info: "USA, Electric Vehicle" }
-      ],
-      popularStockList: [
-        { ID: 1, name: "Xiaomi", info: "China, Technologie" },
-        { ID: 2, name: "Plug Power", info: "USA, Hydrogen" },
-        { ID: 3, name: "Tesla", info: "USA, Electric Vehicle" },
-        { ID: 4, name: "TUI", info: "GER, Tourism" }
-      ]
+      relevantStocks: [],
+      stockList: []
     };
   },
   created() {
-    this.getPopularStocks();
+    this.getAllStocks();
   },
   methods: {
-    getRelatedStocks() {},
-    getPopularStocks() {}
+    getAllStocks() {
+      this.$axios
+        .get(
+          `getAllShares?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            this.stockList = responseData.data;
+          } else {
+            console.log(responseData);
+          }
+        });
+    },
+    getReleventStocks() {
+      this.relevantStocks = [];
+      this.stockList.forEach(element => {
+        console.log(element);
+        if (
+          element.name.toLowerCase().includes(this.searchStock) &&
+          this.searchStock !== ""
+        ) {
+          this.relevantStocks.push(element);
+        }
+      });
+    }
   }
 };
 </script>

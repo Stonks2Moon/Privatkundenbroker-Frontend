@@ -3,7 +3,7 @@
     class="q-pa-none full-width shadow-10 bg-dark rounded-borders"
     style="height:400px"
   >
-    <IEcharts class="q-mx-sm" :option="barChartOption" :resizable="true" />
+    <IEcharts class="q-mx-sm" :option="chartOption" :resizable="true" />
   </div>
 </template>
 
@@ -13,15 +13,16 @@ export default {
   name: "StockChart",
   props: {
     historyData: {
-      type: Object,
-      required: false
-    }
+      type: Array,
+      required: true
+    },
+    name: { type: String, required: false }
   },
   data() {
     return {};
   },
   computed: {
-    barChartOption() {
+    chartOption() {
       return {
         darkMode: true,
         tooltip: {
@@ -74,15 +75,23 @@ export default {
         ],
         series: [
           {
-            name: this.historyData.name,
+            name: this.name,
             type: "line",
             smooth: true,
             symbol: "none",
             areaStyle: {},
-            data: this.historyData.chartData
+            data: this.formattedData
           }
         ]
       };
+    },
+    formattedData() {
+      var dataSet = [];
+      this.historyData.forEach(element => {
+        let dataEntry = [new Date(element.timestamp), element.price];
+        dataSet.push(dataEntry);
+      });
+      return dataSet;
     }
   },
   components: {

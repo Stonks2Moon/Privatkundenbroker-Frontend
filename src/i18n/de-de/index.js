@@ -18,6 +18,7 @@ export default {
   letsGo: 'Los geht\'s',
   profile: 'Profil',
   information: 'Informationen',
+  depotID: 'Depotnummer',
   customerID: "Kundennummer",
   firstname: 'Vorname',
   lastname: 'Nachname',

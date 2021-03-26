@@ -113,7 +113,8 @@ export default {
                 street: responseData.data.Strasse,
                 houseNumber: responseData.data.Hausnummer,
                 postalCode: responseData.data.Postleitzahl,
-                city: responseData.data.Ort
+                city: responseData.data.Ort,
+                depotID: responseData.data.depotIDs[0]
               };
               console.log(user);
               this.$store.commit("user/save", user);
@@ -188,7 +189,8 @@ export default {
               street: responseData.data.Strasse,
               houseNumber: responseData.data.Hausnummer,
               postalCode: responseData.data.Postleitzahl,
-              city: responseData.data.Ort
+              city: responseData.data.Ort,
+              depotID: responseData.data.depotID
             };
             this.$store.commit("user/save", user);
             this.$store.commit("user/authenticateUser", true);

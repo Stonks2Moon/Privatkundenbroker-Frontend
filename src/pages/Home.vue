@@ -4,11 +4,17 @@
       <div class="col q-ma-xs full-width no-wrap items-center">
         <div class="row text-weight-bolder items-center" style="font-size:24px">
           <q-icon name="insights" class="q-pr-md" />
-          <div>{{ $t("depot") }}</div>
+          <div>
+            <div>{{ $t("depot") }}</div>
+            <div class="row text-caption" style="font-size:16px">
+              {{ $t("depotID") }}:
+              <div class="q-pl-xs">{{ $store.state.user.depotID }}</div>
+            </div>
+          </div>
           <q-space />
           {{ depotBalance }}
         </div>
-        <div class="col q-pt-sm" v-if="depotData">
+        <div class="col q-pt-sm" v-if="depotData.positions">
           <PieChart :depotData="depotData.positions" />
           <DepotEntry
             v-for="stockData in depotData.positions"
@@ -21,7 +27,13 @@
           style="font-size:24px"
         >
           <q-icon name="account_balance_wallet" class="q-pr-md" />
-          <div>{{ $t("wallet") }}</div>
+          <div>
+            <div>{{ $t("wallet") }}</div>
+            <div class="row text-caption" style="font-size:16px">
+              DE99 7474 7373 3737 73
+            </div>
+          </div>
+
           <q-space />
           <div v-if="walletData.balance">{{ walletBalance }}</div>
         </div>
@@ -68,43 +80,7 @@ export default {
   data() {
     return {
       walletData: [],
-      depotData: {
-        balance: 4581.3,
-        positions: [
-          {
-            ID: 1,
-            name: "Apple",
-            WKN: "865985",
-            amount: 16,
-            buyPrice: 98.56,
-            actualPrice: 103.56
-          },
-          {
-            ID: 2,
-            name: "Tesla",
-            WKN: "A1CX3T",
-            amount: 3,
-            buyPrice: 400.56,
-            actualPrice: 660.78
-          },
-          {
-            ID: 3,
-            name: "Xiaomi",
-            WKN: "A2JNY1",
-            amount: 200,
-            buyPrice: 2.98,
-            actualPrice: 2.52
-          },
-          {
-            ID: 4,
-            name: "TUI",
-            WKN: "TUAG00",
-            amount: 100,
-            buyPrice: 2.56,
-            actualPrice: 4.38
-          }
-        ]
-      },
+      depotData: [],
       orderData: [
         {
           ID: 1,
@@ -131,6 +107,7 @@ export default {
   },
   created() {
     this.getBalanceAndLastTransactionsOfVerrechnungskonto();
+    this.getDepotValues();
   },
   methods: {
     getBalanceAndLastTransactionsOfVerrechnungskonto() {
@@ -142,6 +119,20 @@ export default {
           var responseData = response.data;
           if (responseData.success) {
             this.walletData = responseData.data;
+          } else {
+            console.log(responseData);
+          }
+        });
+    },
+    getDepotValues() {
+      this.$axios
+        .get(
+          `getDepotValues?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&depotID=${this.$store.state.user.depotID}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            this.depotData = responseData.data;
           } else {
             console.log(responseData);
           }

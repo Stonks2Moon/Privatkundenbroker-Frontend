@@ -66,7 +66,7 @@ export default {
       var dataSet = [];
       this.depotData.forEach(element => {
         let dataEntry = {
-          value: element.amount * element.actualPrice,
+          value: element.currentTotalValue,
           name: element.name
         };
         dataSet.push(dataEntry);

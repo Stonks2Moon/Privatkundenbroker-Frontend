@@ -9,6 +9,7 @@ export default function () {
     houseNumber: null,
     postalCode: null,
     city: null,
+    depotID: null,
     isAuthenticated: false
   }
 }

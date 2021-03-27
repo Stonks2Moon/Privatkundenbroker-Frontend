@@ -80,6 +80,6 @@ export default {
   placeOrder: "Order aufgeben",
   stop: "Stop",
   limit: "Limit",
-  live: 'LIVE',
+  live: 'Live',
   closed: 'Closed'
 }

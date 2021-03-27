@@ -48,6 +48,65 @@
             :transaction="transaction"
           />
         </div>
+        <div class="row">
+          <q-space /><q-btn
+            icon-right="payments"
+            rounded-borders
+            class="bg-dark"
+            no-caps
+            :label="$t('transfer')"
+            @click="togglePopUpForTransfer"
+          />
+        </div>
+        <q-dialog v-model="popUpForTransfer">
+          <q-card class="bg-dark" style="width:300px;">
+            <q-card-section>
+              <div class="text-h6">{{ $t("transfer") }}</div>
+            </q-card-section>
+            <form @submit.prevent.stop="onSubmitTransfer" class="q-px-sm">
+              <q-card-section>
+                <q-input
+                  mask="AA## #### #### #### #### ##"
+                  ref="ISBN"
+                  filled
+                  v-model="toSendISBN"
+                  :label="$t('ISBN')"
+                  lazy-rules=""
+                  :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
+                />
+                <q-input
+                  ref="Value"
+                  type="number"
+                  filled
+                  v-model="transactionValue"
+                  suffix="€"
+                  :label="$t('value')"
+                  lazy-rules=""
+                  :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
+                />
+                <q-input
+                  ref="Password"
+                  type="password"
+                  filled
+                  v-model="password"
+                  :label="$t('password')"
+                  lazy-rules=""
+                  :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
+                />
+              </q-card-section>
+
+              <q-separator class="q-mx-sm" />
+              <q-card-actions align="right" class="bg-dark">
+                <q-btn
+                  type="submit"
+                  color="primary"
+                  no-caps
+                  :label="$t('send')"
+                />
+              </q-card-actions>
+            </form>
+          </q-card>
+        </q-dialog>
         <div class="row text-weight-bolder items-center" style="font-size:24px">
           <q-icon name="menu_open" class="q-pr-md" />
           <div>{{ $t("openOrders") }}</div>
@@ -105,7 +164,12 @@ export default {
           price: 26.0,
           date: "2021-03-20T23:00:00.000Z"
         }
-      ]
+      ],
+      popUpForTransfer: false,
+      toSendISBN: "",
+      transactionValue: null,
+      password: "",
+      formHasError: true
     };
   },
   created() {
@@ -140,6 +204,27 @@ export default {
             console.log(responseData);
           }
         });
+    },
+    togglePopUpForTransfer() {
+      this.popUpForTransfer = !this.popUpForTransfer;
+    },
+    doTransaction() {
+      console.log(this.formHasError);
+    },
+    onSubmitTransfer() {
+      this.$refs.ISBN.validate();
+      this.$refs.Value.validate();
+      this.$refs.Password.validate();
+
+      if (
+        this.$refs.ISBN.hasError ||
+        this.$refs.Value.hasError ||
+        this.$refs.Password.hasError
+      ) {
+        this.formHasError = true;
+      } else {
+        this.doTransaction();
+      }
     }
   }
 };

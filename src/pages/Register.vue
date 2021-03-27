@@ -202,7 +202,8 @@ export default {
       housenumber: null,
       postalCode: null,
       city: null,
-      accept: true
+      accept: true,
+      formHasError: false
     };
   },
   methods: {

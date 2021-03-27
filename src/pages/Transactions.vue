@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="q-pa-md">
+    <div class="q-pa-md" v-if="walletData.transactions">
       <div class="col q-ma-xs full-width no-wrap items-center">
         <div class="row text-weight-bolder items-center" style="font-size:24px">
           <q-icon name="clear_all" class="q-pr-md" />

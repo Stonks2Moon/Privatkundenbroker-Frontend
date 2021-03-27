@@ -10,6 +10,7 @@ export default function () {
     postalCode: null,
     city: null,
     depotID: null,
+    IBAN: null,
     isAuthenticated: false
   }
 }

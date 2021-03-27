@@ -34,7 +34,12 @@ export default {
     }
   },
   data() {
-    return {};
+    return { stockName: null };
+  },
+  created() {
+    if (this.stockID !== "" && this.stockID) {
+      this.loadShareData();
+    }
   },
   computed: {
     formattedDate() {
@@ -60,9 +65,13 @@ export default {
       }
       let descriptionSplit = description.split(":");
       if (description.includes("Aktienkauf")) {
-        return this.$t("shareBuy") + ": " + descriptionSplit[1];
+        return (
+          this.$t("shareBuy") + ": " + (this.stockName ? this.stockName : "")
+        );
       } else if (description.includes("Aktienverkauf")) {
-        return this.$t("shareSell") + ": " + descriptionSplit[1];
+        return (
+          this.$t("shareSell") + ": " + (this.stockName ? this.stockName : "")
+        );
       } else {
         return "";
       }
@@ -90,6 +99,31 @@ export default {
       } else {
         return "";
       }
+    },
+    stockID() {
+      if (this.transaction.Beschreibung.includes("Aktien")) {
+        let descriptionSplit = this.transaction.Beschreibung.split(": ");
+        let nor = descriptionSplit[1].replace(" Anzahl", "");
+        return nor;
+      } else {
+        return "";
+      }
+    }
+  },
+  methods: {
+    loadShareData() {
+      this.$axios
+        .get(
+          `getShare?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&shareID=${this.stockID}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            this.stockName = responseData.data.name;
+          } else {
+            console.log(responseData);
+          }
+        });
     }
   }
 };

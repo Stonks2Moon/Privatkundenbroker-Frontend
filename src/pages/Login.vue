@@ -84,10 +84,10 @@ export default {
     };
   },
   created() {
-    var user = this.$q.cookies.get("cookie_moonStonks_user");
+    /*var user = this.$q.cookies.get("cookie_moonStonks_user");
     if (user) {
       this.loginWithHash(user.email, user.passwordHash);
-    }
+    }*/
   },
   methods: {
     login() {
@@ -114,7 +114,8 @@ export default {
                 houseNumber: responseData.data.Hausnummer,
                 postalCode: responseData.data.Postleitzahl,
                 city: responseData.data.Ort,
-                depotID: responseData.data.depotIDs[0]
+                depotID: responseData.data.depotIDs[0],
+                IBAN: responseData.data.VerrechnungskontoIBAN
               };
               console.log(user);
               this.$store.commit("user/save", user);
@@ -190,7 +191,8 @@ export default {
               houseNumber: responseData.data.Hausnummer,
               postalCode: responseData.data.Postleitzahl,
               city: responseData.data.Ort,
-              depotID: responseData.data.depotID
+              depotID: responseData.data.depotIDs[0],
+              IBAN: responseData.data.VerrechnungskontoIBAN
             };
             this.$store.commit("user/save", user);
             this.$store.commit("user/authenticateUser", true);

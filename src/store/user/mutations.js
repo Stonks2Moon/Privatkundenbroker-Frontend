@@ -9,6 +9,7 @@ export function save (state, user) {
   state.postalCode= user.postalCode,
   state.city =  user.city,
   state.depotID =  user.depotID,
+  state.IBAN = user.IBAN,
   state.isAuthenticated = true
 }
 export function authenticateUser(state, authenticated){
@@ -25,6 +26,7 @@ export function resetState (state){
   state.postalCode= null,
   state.city =  null,
   state.depotID = null,
+  state.IBAN = null,
   state.isAuthenticated = false
 }
 export function updateStreet(state, street){

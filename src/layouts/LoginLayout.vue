@@ -31,6 +31,10 @@ export default {
       this.$store.commit("settings/save", settings);
     }
     console.log(settings);
+    var user = this.$q.cookies.get("cookie_moonStonks_user");
+    if (user) {
+      this.loginWithHash(user.email, user.passwordHash);
+    }
   },
   methods: {
     acceptedCookie() {
@@ -39,6 +43,46 @@ export default {
       this.$q.cookies.set("cookie_moonStonks_settings", settings, {
         expires: 365
       });
+    },
+    loginWithHash(email, hashedPassword) {
+      this.$axios
+        .get(
+          `loginWithPasswordHash?email=${email}&hashedPassword=${hashedPassword}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            var user = {
+              ID: responseData.data.NutzerID,
+              email: email,
+              passwordHash: hashedPassword,
+              firstName: responseData.data.Vorname,
+              lastName: responseData.data.Nachname,
+              street: responseData.data.Strasse,
+              houseNumber: responseData.data.Hausnummer,
+              postalCode: responseData.data.Postleitzahl,
+              city: responseData.data.Ort,
+              depotID: responseData.data.depotIDs[0],
+              IBAN: responseData.data.VerrechnungskontoIBAN
+            };
+            this.$store.commit("user/save", user);
+            this.$store.commit("user/authenticateUser", true);
+            if (this.$store.state.settings.acceptedCookie) {
+              var settings = this.$store.state.settings;
+              this.$q.cookies.set("cookie_moonStonks_settings", settings, {
+                expires: 10
+              });
+              this.$q.cookies.set("cookie_moonStonks_user", user, {
+                expires: 10
+              });
+            }
+            this.$router.push({
+              path: "/home"
+            });
+          } else {
+            console.log(responseData);
+          }
+        });
     }
   }
 };

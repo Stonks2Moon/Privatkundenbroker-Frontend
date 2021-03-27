@@ -1,8 +1,7 @@
 <template>
-  <q-page padding>
+  <q-page padding v-if="stockData.name">
     <div class="row items-center">
       <div class="row col-md-2 col-xs-10 items-center">
-        {{ $store.state.user.depotID }}
         <q-btn
           round
           padding="none"
@@ -27,7 +26,13 @@
 
     <div class="col column q-ma-xs items-center">
       <div class="row full-width items-center q-ma-sm">
-        <q-icon name="stop_circle" :color="statusColor"></q-icon>
+        <q-item
+          dense
+          class="rounded-borders text-bold items-center"
+          :class="'bg-' + (marketOpen ? 'green' : 'red')"
+          ><div v-if="marketOpen">{{ $t("live") }}</div>
+          <div v-else>{{ $t("closed") }}</div>
+        </q-item>
         <div class="q-px-xs text-bold" style="font-size: 25px;">
           {{ stockPrice }}
         </div>
@@ -259,6 +264,7 @@
         </q-card-section>
         <q-card-section v-if="selectedOrderType === 'Market'">
           <q-btn
+            :disable="amountOfShares <= 0"
             :label="$t('placeOrder')"
             size="lg"
             no-caps
@@ -290,6 +296,8 @@ export default {
     this.stockID = this.$route.params.stockID;
     this.loadShareData();
     this.loadShareHistoryData();
+    this.checkMarketOpen();
+    this.checker = setInterval(this.getLatestPrice, 10000);
     //this.limitOrderPrice = this.stockData.price;
   },
   computed: {
@@ -360,10 +368,26 @@ export default {
       limitForStopLimitOrderPrice: 0,
       amountOfShares: 0,
       stockData: [],
-      historyData: []
+      historyData: [],
+      marketOpen: false,
+      checker: null
     };
   },
   methods: {
+    checkMarketOpen() {
+      this.$axios
+        .get(
+          `checkIfMarketIsOpen?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            this.marketOpen = responseData.data.marketIsOpen;
+          } else {
+            console.log(responseData);
+          }
+        });
+    },
     loadShareData() {
       this.$axios
         .get(
@@ -374,6 +398,7 @@ export default {
           if (responseData.success) {
             this.stockData = responseData.data;
             console.log(this.stockData);
+            this.limitOrderPrice = this.stockData.price;
             this.getLatestPrice();
           } else {
             console.log(responseData);
@@ -412,20 +437,21 @@ export default {
         });
     },
     getLatestPrice() {
-      this.$axios
-        .get(
-          `getPriceOfShare?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&shareID=${this.stockID}`
-        )
-        .then(response => {
-          var responseData = response.data;
-          if (responseData.success) {
-            this.stockData.price = responseData.data;
-            this.limitOrderPrice = this.stockData.price;
-            console.log(this.historyData);
-          } else {
-            console.log(responseData);
-          }
-        });
+      if (this.$route.path.includes(`/order/Stock/ID=${this.stockID}`)) {
+        this.$axios
+          .get(
+            `getPriceOfShare?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&shareID=${this.stockID}`
+          )
+          .then(response => {
+            var responseData = response.data;
+            if (responseData.success) {
+              this.stockData.price = responseData.data;
+              console.log(responseData);
+            } else {
+              console.log(responseData);
+            }
+          });
+      }
     },
     toggleTrendData() {
       this.showPercentageTrendData = !this.showPercentageTrendData;

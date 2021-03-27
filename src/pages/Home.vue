@@ -1,7 +1,10 @@
 <template>
   <q-page>
     <div class="q-pa-md">
-      <div class="col q-ma-xs full-width no-wrap items-center">
+      <div
+        class="col q-ma-xs full-width no-wrap items-center"
+        v-if="depotData.balance"
+      >
         <div class="row text-weight-bolder items-center" style="font-size:24px">
           <q-icon name="insights" class="q-pr-md" />
           <div>
@@ -30,7 +33,7 @@
           <div>
             <div>{{ $t("wallet") }}</div>
             <div class="row text-caption" style="font-size:16px">
-              DE99 7474 7373 3737 73
+              {{ $store.state.user.IBAN }}
             </div>
           </div>
 

@@ -437,8 +437,8 @@ export default {
             var responseData = response.data;
             if (responseData.success) {
               var response = responseData.data;
-              console.log(response);
               this.amountOfShares = 0;
+              this.showOrderStatus = true;
             } else {
               if (responseData.message.includes("not enough")) {
                 this.notifyForBadRequest("notEnoughMoney");
@@ -458,8 +458,8 @@ export default {
             var responseData = response.data;
             if (responseData.success) {
               var response = responseData.data;
-              console.log(response);
               this.amountOfShares = 0;
+              this.showOrderStatus = true;
             } else {
               if (responseData.message.includes("not enough")) {
                 this.notifyForBadRequest("notEnoughMoney");

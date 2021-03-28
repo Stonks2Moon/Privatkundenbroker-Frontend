@@ -75,7 +75,6 @@ export default {
     getReleventStocks() {
       this.relevantStocks = [];
       this.stockList.forEach(element => {
-        console.log(element);
         if (
           element.name.toLowerCase().includes(this.searchStock) &&
           this.searchStock !== ""

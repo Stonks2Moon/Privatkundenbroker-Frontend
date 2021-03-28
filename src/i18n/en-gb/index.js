@@ -84,5 +84,7 @@ export default {
   stop: "Stop",
   limit: "Limit",
   live: 'Live',
-  closed: 'Closed'
+  closed: 'Closed',
+  confirm: 'Bestätigen',
+  notEnoughMoney: 'There is not enough money on the account'
 }

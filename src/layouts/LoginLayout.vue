@@ -30,7 +30,6 @@ export default {
     if (settings) {
       this.$store.commit("settings/save", settings);
     }
-    console.log(settings);
     var user = this.$q.cookies.get("cookie_moonStonks_user");
     if (user) {
       this.loginWithHash(user.email, user.passwordHash);

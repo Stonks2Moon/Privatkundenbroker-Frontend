@@ -95,7 +95,7 @@ export default {
     shareAmount() {
       if (this.transaction.Beschreibung.includes("Aktien")) {
         let descriptionSplit = this.transaction.Beschreibung.split(":");
-        return descriptionSplit[1];
+        return descriptionSplit[2];
       } else {
         return "";
       }

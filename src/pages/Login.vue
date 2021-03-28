@@ -117,7 +117,6 @@ export default {
                 depotID: responseData.data.depotIDs[0],
                 IBAN: responseData.data.VerrechnungskontoIBAN
               };
-              console.log(user);
               this.$store.commit("user/save", user);
               this.$store.commit("user/authenticateUser", true);
               if (this.$store.state.settings.acceptedCookie) {

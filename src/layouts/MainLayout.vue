@@ -135,9 +135,6 @@ export default {
   created() {
     var user = this.$q.cookies.get("cookie_moonStonks_user");
     var settings = this.$q.cookies.get("cookie_moonStonks_settings");
-    console.log(settings);
-    console.log(this.$store.state.settings.darkMode);
-    console.log(settings.darkMode);
 
     this.$store.commit("user/save", user);
     this.$store.commit("user/authenticateUser", true);

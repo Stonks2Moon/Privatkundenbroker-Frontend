@@ -84,5 +84,8 @@ export default {
   stop: "Stop",
   limit: "Limit",
   live: 'Live',
-  closed: 'Closed'
+  closed: 'Closed',
+  confirm: 'Bestätigen',
+  created: 'Die Order wurde erfolgreich platziert',
+  notEnoughMoney: 'Es ist nicht genug Geld auf dem Verrechnungskonto vorhanden',
 }

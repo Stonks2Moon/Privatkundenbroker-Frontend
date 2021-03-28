@@ -285,6 +285,26 @@
           />
         </q-card-section>
       </q-card>
+      <q-dialog v-model="showOrderStatus">
+        <q-card class="bg-dark" style="width:300px;">
+          <q-card-section>
+            <div class="column items-center text-center">
+              <q-avatar size="125px" icon="done" />
+              <div class="text-h6">{{ $t("created") }}!</div>
+            </div>
+          </q-card-section>
+
+          <q-separator class="q-mx-sm" />
+          <q-card-actions align="right" class="bg-dark">
+            <q-btn
+              v-close-popup
+              color="primary"
+              no-caps
+              :label="$t('confirm')"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </q-page>
 </template>
@@ -372,7 +392,8 @@ export default {
       stockData: [],
       historyData: [],
       marketOpen: false,
-      checker: null
+      checker: null,
+      showOrderStatus: false
     };
   },
   methods: {
@@ -399,7 +420,6 @@ export default {
           var responseData = response.data;
           if (responseData.success) {
             this.stockData = responseData.data;
-            console.log(this.stockData);
             this.limitOrderPrice = this.stockData.price;
             this.getLatestPrice();
           } else {
@@ -420,6 +440,9 @@ export default {
               console.log(response);
               this.amountOfShares = 0;
             } else {
+              if (responseData.message.includes("not enough")) {
+                this.notifyForBadRequest("notEnoughMoney");
+              }
               console.log(responseData);
             }
           });
@@ -438,6 +461,9 @@ export default {
               console.log(response);
               this.amountOfShares = 0;
             } else {
+              if (responseData.message.includes("not enough")) {
+                this.notifyForBadRequest("notEnoughMoney");
+              }
               console.log(responseData);
             }
           });
@@ -452,7 +478,6 @@ export default {
           var responseData = response.data;
           if (responseData.success) {
             this.historyData = responseData.data;
-            console.log(this.historyData);
           } else {
             console.log(responseData);
           }
@@ -526,6 +551,12 @@ export default {
     },
     reduceAmountOfShares() {
       this.amountOfShares = parseInt(this.amountOfShares) - 1;
+    },
+    notifyForBadRequest(message) {
+      this.$q.notify({
+        color: "negative",
+        message: this.$t(message) + "!"
+      });
     }
   }
 };

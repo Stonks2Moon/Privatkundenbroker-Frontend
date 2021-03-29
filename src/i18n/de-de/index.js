@@ -83,7 +83,7 @@ export default {
   placeOrder: "Order aufgeben",
   stop: "Stop",
   limit: "Limit",
-  live: 'Live',
+  open: 'Open',
   closed: 'Closed',
   confirm: 'Bestätigen',
   created: 'Die Order wurde erfolgreich platziert',

@@ -30,7 +30,7 @@
           dense
           class="rounded-borders text-bold items-center"
           :class="'bg-' + (marketOpen ? 'green' : 'red')"
-          ><div v-if="marketOpen">{{ $t("live").toUpperCase() }}</div>
+          ><div v-if="marketOpen">{{ $t("open").toUpperCase() }}</div>
           <div v-else>{{ $t("closed").toUpperCase() }}</div>
         </q-item>
         <div class="q-px-xs text-bold" style="font-size: 25px;">

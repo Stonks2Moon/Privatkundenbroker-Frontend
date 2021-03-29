@@ -83,7 +83,7 @@ export default {
   placeOrder: "Place Order",
   stop: "Stop",
   limit: "Limit",
-  live: 'Live',
+  open: 'Open',
   closed: 'Closed',
   confirm: 'Bestätigen',
   notEnoughMoney: 'There is not enough money on the account'

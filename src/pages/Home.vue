@@ -33,7 +33,7 @@
           <div>
             <div>{{ $t("wallet") }}</div>
             <div class="row text-caption" style="font-size:16px">
-              {{ $store.state.user.IBAN }}
+              {{ formattedIBAN }}
             </div>
           </div>
 
@@ -54,7 +54,7 @@
             rounded-borders
             class="bg-dark"
             no-caps
-            :label="$t('transfer')"
+            :label="$t('withdrawal')"
             @click="togglePopUpForTransfer"
           />
         </div>
@@ -67,10 +67,10 @@
               <q-card-section>
                 <q-input
                   mask="AA## #### #### #### #### ##"
-                  ref="ISBN"
+                  ref="IBAN"
                   filled
-                  v-model="toSendISBN"
-                  :label="$t('ISBN')"
+                  v-model="toSendIBAN"
+                  :label="$t('IBAN')"
                   lazy-rules=""
                   :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
                 />
@@ -166,7 +166,7 @@ export default {
         }
       ],
       popUpForTransfer: false,
-      toSendISBN: "",
+      toSendIBAN: "",
       transactionValue: null,
       password: "",
       formHasError: true
@@ -175,6 +175,14 @@ export default {
   created() {
     this.getBalanceAndLastTransactionsOfVerrechnungskonto();
     this.getDepotValues();
+  },
+  computed: {
+    formattedIBAN() {
+      return this.formatToIBAN(
+        this.$store.state.user.IBAN,
+        "#### #### #### #### #### ##"
+      );
+    }
   },
   methods: {
     getBalanceAndLastTransactionsOfVerrechnungskonto() {
@@ -212,12 +220,12 @@ export default {
       console.log(this.formHasError);
     },
     onSubmitTransfer() {
-      this.$refs.ISBN.validate();
+      this.$refs.IBAN.validate();
       this.$refs.Value.validate();
       this.$refs.Password.validate();
 
       if (
-        this.$refs.ISBN.hasError ||
+        this.$refs.IBAN.hasError ||
         this.$refs.Value.hasError ||
         this.$refs.Password.hasError
       ) {
@@ -225,6 +233,11 @@ export default {
       } else {
         this.doTransaction();
       }
+    },
+    formatToIBAN(value, pattern) {
+      var i = 0,
+        v = value.toString();
+      return pattern.replace(/#/g, _ => v[i++]);
     }
   }
 };

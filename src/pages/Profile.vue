@@ -11,14 +11,6 @@
       </div>
       <div class="row items-center">
         <div class="col-sm-2 col-xs-5 text-left q-px-md">
-          {{ $t("depotID") }}
-        </div>
-        <q-input
-          class="col-sm-10 col-xs-7"
-          v-model="profile.depotID"
-          readonly
-        />
-        <div class="col-sm-2 col-xs-5 text-left q-px-md">
           {{ $t("customerID") }}
         </div>
         <q-input class="col-sm-10 col-xs-7" v-model="profile.ID" readonly />

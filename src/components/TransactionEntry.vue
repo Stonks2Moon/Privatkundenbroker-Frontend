@@ -103,8 +103,8 @@ export default {
     stockID() {
       if (this.transaction.Beschreibung.includes("Aktien")) {
         let descriptionSplit = this.transaction.Beschreibung.split(": ");
-        let nor = descriptionSplit[1].replace(" Anzahl", "");
-        return nor;
+        let str = descriptionSplit[1].replace(" Anzahl", "");
+        return str;
       } else {
         return "";
       }

@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="stockName || !isShareBuyOrSell"
     :class="transaction.Betrag <= 0 ? 'bg-red' : 'bg-green'"
     class="col q-my-md q-pa-sm shadow-3 rounded-borders"
   >
@@ -15,10 +16,10 @@
       </div>
       <q-space />
       <div class="text-caption" v-if="!isShareBuyOrSell">
-        {{ destination }} {{ transaction.Zielkonto }}
+        {{ destination }} {{ formattedIBAN }}
       </div>
       <div class="text-caption" v-if="isShareBuyOrSell">
-        {{ $t("amount") }}: {{ shareAmount }}
+        {{ $t("amount") }}: {{ this.transaction.Anzahl }}
       </div>
     </div>
   </div>
@@ -108,6 +109,15 @@ export default {
       } else {
         return "";
       }
+    },
+    descriptionNew() {
+      return this.$t(this.transaction.Beschreibung);
+    },
+    formattedIBAN() {
+      return this.formatToIBAN(
+        this.transaction.Zielkonto,
+        "#### #### #### #### #### ##"
+      );
     }
   },
   methods: {
@@ -124,6 +134,11 @@ export default {
             console.log(responseData);
           }
         });
+    },
+    formatToIBAN(value, pattern) {
+      var i = 0,
+        v = value.toString();
+      return pattern.replace(/#/g, _ => v[i++]);
     }
   }
 };

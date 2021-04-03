@@ -205,6 +205,11 @@ export default {
           title: this.$t("transactions"),
           icon: "clear_all",
           link: "/transactions"
+        },
+        {
+          title: this.$t("invoices"),
+          icon: "receipt",
+          link: "/invoices"
         }
       ];
     },

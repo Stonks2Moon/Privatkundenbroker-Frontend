@@ -8,7 +8,10 @@
           <q-space />
           {{ balance }} €
         </div>
-        <div v-if="walletData.transactions">
+        <div
+          class="col q-py-md q-px-xs q-gutter-md"
+          v-if="walletData.transactions"
+        >
           <TransactionEntry
             v-for="transaction in walletData.transactions"
             :key="transaction.TransaktionsID"

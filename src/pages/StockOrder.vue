@@ -174,7 +174,8 @@
           <q-card-section>
             <q-input
               filled
-              v-model.number="stopForStopLimitOrderPrice"
+              type="number"
+              v-model="stopForStopLimitOrderPrice"
               :label="$t('stop')"
               suffix="€"
             >
@@ -199,7 +200,8 @@
           <q-card-section>
             <q-input
               filled
-              v-model.number="limitForStopLimitOrderPrice"
+              type="number"
+              v-model="limitForStopLimitOrderPrice"
               :rules="[val => val >= 0 || $t('onlyPositiveNumber')]"
               lazy-rules
               hide-bottom-space
@@ -277,11 +279,13 @@
         </q-card-section>
         <q-card-section v-if="selectedOrderType === 'Stop-Limit'">
           <q-btn
+            :disable="amountOfShares <= 0"
             :label="$t('placeOrder')"
             size="lg"
             no-caps
             class="full-width"
             color="primary"
+            @click="createStopLimitOrder"
           />
         </q-card-section>
       </q-card>
@@ -377,6 +381,13 @@ export default {
       } else {
         return "green-7";
       }
+    },
+    stringForOrder() {
+      if (this.isBuyButtonPressed) {
+        return "buyOrder";
+      } else {
+        return "sellOrder";
+      }
     }
   },
   data() {
@@ -428,46 +439,61 @@ export default {
         });
     },
     createMarketOrder() {
-      if (this.isBuyButtonPressed) {
-        this.$axios
-          .post(
-            `buyOrder?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&depotID=${this.$store.state.user.depotID}&shareID=${this.stockID}&type=${this.selectedOrderType}&amount=${this.amountOfShares}`
-          )
-          .then(response => {
-            var responseData = response.data;
-            if (responseData.success) {
-              var response = responseData.data;
-              this.amountOfShares = 0;
-              this.showOrderStatus = true;
-            } else {
-              if (responseData.message.includes("not enough")) {
-                this.notifyForBadRequest("notEnoughMoney");
-              }
-              console.log(responseData);
+      this.$axios
+        .post(
+          `${this.stringForOrder}?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&depotID=${this.$store.state.user.depotID}&shareID=${this.stockID}&type=${this.selectedOrderType}&amount=${this.amountOfShares}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            var response = responseData.data;
+            this.amountOfShares = 0;
+            this.showOrderStatus = true;
+          } else {
+            if (responseData.message.includes("not enough")) {
+              this.notifyForBadRequest("notEnoughMoney");
             }
-          });
-      }
+            console.log(responseData);
+          }
+        });
     },
     createLimitOrder() {
-      if (this.isBuyButtonPressed) {
-        this.$axios
-          .post(
-            `buyOrder?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&depotID=${this.$store.state.user.depotID}&shareID=${this.stockID}&type=${this.selectedOrderType}&amount=${this.amountOfShares}&limit=${this.limitOrderPrice}`
-          )
-          .then(response => {
-            var responseData = response.data;
-            if (responseData.success) {
-              var response = responseData.data;
-              this.amountOfShares = 0;
-              this.showOrderStatus = true;
-            } else {
-              if (responseData.message.includes("not enough")) {
-                this.notifyForBadRequest("notEnoughMoney");
-              }
-              console.log(responseData);
+      this.$axios
+        .post(
+          `${this.stringForOrder}?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&depotID=${this.$store.state.user.depotID}&shareID=${this.stockID}&type=${this.selectedOrderType}&amount=${this.amountOfShares}&limit=${this.limitOrderPrice}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            var response = responseData.data;
+            this.amountOfShares = 0;
+            this.showOrderStatus = true;
+          } else {
+            if (responseData.message.includes("not enough")) {
+              this.notifyForBadRequest("notEnoughMoney");
             }
-          });
-      }
+            console.log(responseData);
+          }
+        });
+    },
+    createStopLimitOrder() {
+      this.$axios
+        .post(
+          `${this.stringForOrder}?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&depotID=${this.$store.state.user.depotID}&shareID=${this.stockID}&type=${this.selectedOrderType}&amount=${this.amountOfShares}&limit=${this.limitOrderPrice}&stop=${this.stopForStopLimitOrderPrice}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            var response = responseData.data;
+            this.amountOfShares = 0;
+            this.showOrderStatus = true;
+          } else {
+            if (responseData.message.includes("not enough")) {
+              this.notifyForBadRequest("notEnoughMoney");
+            }
+            console.log(responseData);
+          }
+        });
     },
     loadShareHistoryData() {
       this.$axios

@@ -5,11 +5,17 @@
     :to="link"
   >
     <div class="col ">
-      <div class="row no-wrap items-center text-caption">
-        <div class="col">{{ stockData.ISIN }}</div>
+      <div class="row full-width items-center">
+        <div class="col text-caption">{{ stockData.ISIN }}</div>
+        <q-space />
+        <div class="" v-if="stockData.Blockiert">
+          <q-item dense class="bg-red rounded-borders items-center text-bold">{{
+            $t("blocked")
+          }}</q-item>
+        </div>
       </div>
       <div class="row items-center full-width no-wrap">
-        <div class="text-uppercase" style="font-size:18px;">
+        <div class="row text-uppercase" style="font-size:18px;">
           {{ stockData.name }}
         </div>
         <q-space />

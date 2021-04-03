@@ -82,7 +82,10 @@
                   suffix="€"
                   :label="$t('value')"
                   lazy-rules=""
-                  :rules="[val => (val && val.length > 0) || $t('pleaseEnter')]"
+                  :rules="[
+                    val => (val && val.length > 0) || $t('pleaseEnter'),
+                    val => val <= walletData.balance || $t('notEnoughMoney')
+                  ]"
                 />
                 <q-input
                   ref="Password"
@@ -111,12 +114,16 @@
           <q-icon name="menu_open" class="q-pr-md" />
           <div>{{ $t("openOrders") }}</div>
         </div>
-        <div v-if="orderData">
+        <div v-if="orderData.length !== 0">
           <OpenOrderEntry
             v-for="order in orderData"
-            :key="order.ID"
+            :key="order.OrderID"
             :orderData="order"
+            @deleteOrderSend="reloadOrderData($event)"
           />
+        </div>
+        <div v-else class="row q-pt-sm">
+          {{ $t("noOpenOrders") }}
         </div>
       </div>
     </div>
@@ -136,6 +143,12 @@ export default {
     },
     depotBalance() {
       return Number(this.depotData.balance).toFixed(2);
+    },
+    formattedIBAN() {
+      return this.formatToIBAN(
+        this.$store.state.user.IBAN,
+        "#### #### #### #### #### ##"
+      );
     }
   },
   watch: {},
@@ -143,28 +156,7 @@ export default {
     return {
       walletData: [],
       depotData: [],
-      orderData: [
-        {
-          ID: 1,
-          name: "Apple",
-          WKN: "865985",
-          type: "Sell",
-          amount: 4,
-          orderType: "Limit",
-          price: 95.0,
-          date: "2021-03-19T23:00:00.000Z"
-        },
-        {
-          ID: 2,
-          name: "Plug Power",
-          WKN: "A1JA81",
-          type: "Buy",
-          amount: 4,
-          orderType: "Limit",
-          price: 26.0,
-          date: "2021-03-20T23:00:00.000Z"
-        }
-      ],
+      orderData: [],
       popUpForTransfer: false,
       toSendIBAN: "",
       transactionValue: null,
@@ -175,14 +167,7 @@ export default {
   created() {
     this.getBalanceAndLastTransactionsOfVerrechnungskonto();
     this.getDepotValues();
-  },
-  computed: {
-    formattedIBAN() {
-      return this.formatToIBAN(
-        this.$store.state.user.IBAN,
-        "#### #### #### #### #### ##"
-      );
-    }
+    this.getOrders();
   },
   methods: {
     getBalanceAndLastTransactionsOfVerrechnungskonto() {
@@ -213,11 +198,62 @@ export default {
           }
         });
     },
+    getOrders() {
+      this.$axios
+        .get(
+          `getOrders?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&depotID=${this.$store.state.user.depotID}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            responseData.data.forEach(element => {
+              if (element.OrderstatusID !== 3) {
+                this.orderData.push(element);
+              }
+            });
+          } else {
+            console.log(response);
+          }
+        });
+    },
     togglePopUpForTransfer() {
       this.popUpForTransfer = !this.popUpForTransfer;
     },
+    checkUserCredentials() {
+      this.$axios
+        .get(
+          `loginWithPassword?email=${this.$store.state.user.email}&password=${this.password}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            this.doTransaction();
+          } else {
+            this.$q.notify({
+              color: "negative",
+              message: this.$t("wrongPassword")
+            });
+          }
+        });
+    },
     doTransaction() {
-      console.log(this.formHasError);
+      this.$axios
+        .post(
+          `initiateAuszahlung?email=${
+            this.$store.state.user.email
+          }&hashedPassword=${this.$store.state.user.passwordHash}&amount=${
+            this.transactionValue
+          }&IBAN=${this.toSendIBAN.replace(/\s/g, "")}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            this.popUpForTransfer = false;
+            this.getBalanceAndLastTransactionsOfVerrechnungskonto();
+          } else {
+            console.log(responseData);
+          }
+        });
     },
     onSubmitTransfer() {
       this.$refs.IBAN.validate();
@@ -231,13 +267,16 @@ export default {
       ) {
         this.formHasError = true;
       } else {
-        this.doTransaction();
+        this.checkUserCredentials();
       }
     },
     formatToIBAN(value, pattern) {
       var i = 0,
         v = value.toString();
       return pattern.replace(/#/g, _ => v[i++]);
+    },
+    reloadOrderData(event) {
+      this.getOrders();
     }
   }
 };

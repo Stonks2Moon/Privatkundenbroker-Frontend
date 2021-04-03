@@ -6,6 +6,7 @@
           <q-icon name="receipt" class="q-pr-md" />
           <div>{{ $t("invoices") }}</div>
         </div>
+        <q-separator />
         <div
           class="col q-py-md q-px-xs q-gutter-md"
           v-if="invoicesData.length !== 0"

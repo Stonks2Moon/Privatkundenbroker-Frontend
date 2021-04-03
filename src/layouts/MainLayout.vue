@@ -56,7 +56,7 @@
 
             <q-separator vertical inset class="q-mx-lg" />
             <div class="column items-center">
-              <q-btn round to="profile">
+              <q-btn round to="/profile">
                 <q-avatar size="72px">
                   <img :src="getImageURL" />
                 </q-avatar>

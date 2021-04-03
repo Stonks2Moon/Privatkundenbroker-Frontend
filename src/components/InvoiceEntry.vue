@@ -1,20 +1,17 @@
 <template>
   <q-item
-    class="row justify-center items-center text-center shadow-3 rounded-borders bg-dark"
     clickable
+    class="row items-center text-center shadow-3 rounded-borders bg-dark"
     :to="link"
   >
-    <div class="row full-width items-center">
-      <div class="text-weight-light">{{ formattedDate }}</div>
-      <div class="col">
-        <div class="text-h6">
-          {{ titel }}
-        </div>
+    <div class="text-weight-light">{{ formattedDate }}</div>
+    <div class="col">
+      <div class="text-h6">
+        {{ titel }}
       </div>
-      <q-space />
-      <div class="column">{{ Number(invoice.gesamtWert).toFixed(2) }} €</div>
-      <q-icon round padding="none" flat size="45px" name="navigate_next" />
     </div>
+    <q-space />
+    <div class="row">{{ Number(invoice.gesamtWert).toFixed(2) }} €</div>
   </q-item>
 </template>
 
@@ -47,9 +44,9 @@ export default {
     },
     titel() {
       if (this.invoice.Titel.includes("verkauf")) {
-        return this.$t("paperBuyInvoice");
-      } else {
         return this.$t("paperSellInvoice");
+      } else {
+        return this.$t("paperBuyInvoice");
       }
     }
   },
@@ -67,6 +64,11 @@ export default {
             console.log(responseData);
           }
         });
+    },
+    goTo() {
+      this.$router.push({
+        path: "/" + this.link
+      });
     }
   }
 };

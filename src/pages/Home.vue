@@ -5,11 +5,11 @@
         class="col q-ma-xs full-width no-wrap items-center"
         v-if="depotData.balance"
       >
-        <div class="row text-weight-bolder items-center" style="font-size:24px">
+        <div class="row text-weight-bolder items-center" style="font-size:22px">
           <q-icon name="insights" class="q-pr-md" />
           <div>
             <div>{{ $t("depot") }}</div>
-            <div class="row text-caption" style="font-size:16px">
+            <div class="row text-caption" style="font-size:14px">
               {{ $t("depotID") }}:
               <div class="q-pl-xs">{{ $store.state.user.depotID }}</div>
             </div>
@@ -27,12 +27,12 @@
         </div>
         <div
           class="row text-weight-bolder items-center no-wrap text-no-wrap"
-          style="font-size:24px"
+          style="font-size:22px"
         >
           <q-icon name="account_balance_wallet" class="q-pr-md" />
           <div>
             <div>{{ $t("wallet") }}</div>
-            <div class="row text-caption" style="font-size:16px">
+            <div class="row text-caption" style="font-size:14px">
               {{ formattedIBAN }}
             </div>
           </div>

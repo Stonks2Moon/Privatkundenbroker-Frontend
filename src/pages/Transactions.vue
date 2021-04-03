@@ -8,6 +8,7 @@
           <q-space />
           {{ balance }} €
         </div>
+        <q-separator />
         <div
           class="col q-py-md q-px-xs q-gutter-md"
           v-if="walletData.transactions"

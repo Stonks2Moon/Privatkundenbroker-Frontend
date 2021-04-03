@@ -15,10 +15,11 @@
         </div>
       </div>
     </div>
+    <q-separator />
     <div class="col q-pa-md">
-      <div class="q-pb-md">{{ formattedDate }}</div>
-
-      <div class="row q-pb-xl">
+      <div class="q-pb-md text-right">{{ formattedDate }}</div>
+      <div style="height:50px" />
+      <div class="row">
         <div class="col">
           <div>
             {{ $store.state.user.firstName }} {{ $store.state.user.lastName }}
@@ -38,7 +39,8 @@
           <div>{{ $t("invoiceID") }}: {{ invoiceData.RechnungsID }}</div>
         </div>
       </div>
-      <div class="col q-pt-xl">
+      <div style="height:100px" />
+      <div class="col">
         <div class="text-bold" style="font-size:22px">
           {{ titel }}
         </div>
@@ -51,10 +53,10 @@
             <div class="col-1">
               <div>{{ $t("position") }}</div>
             </div>
-            <div class="col-2">
+            <div class="col-md-1 col-xs-2 text-center">
               <div>{{ $t("amount") }}</div>
             </div>
-            <div class="col-7">
+            <div class="col-md-8 col-xs-7">
               <div>{{ $t("description") }}</div>
             </div>
             <div class="col-2 text-right">
@@ -63,7 +65,7 @@
           </div>
         </div>
 
-        <q-separator></q-separator>
+        <q-separator />
 
         <div
           v-for="position in invoiceData.positionen"
@@ -73,10 +75,10 @@
           <div class="col-1">
             <div>{{ position.Position }}</div>
           </div>
-          <div class="col-2">
+          <div class="col-md-1 col-xs-2 text-center">
             <div>{{ position.Stueckzahl }}</div>
           </div>
-          <div class="col-7">
+          <div class="col-md-8 col-xs-7">
             <div>
               {{
                 position.Bezeichnung.includes("gebühr")
@@ -90,11 +92,23 @@
           </div>
         </div>
 
-        <q-separator></q-separator>
+        <q-separator />
         <div class="row full-width">
           <q-space />{{ invoiceData.gesamtWert.toFixed(2) }} EUR
         </div>
       </div>
+      <div style="height:50px" />
+      <div class="row">
+        {{ $t("auftraggeber") }}: {{ $store.state.user.firstName }}
+        {{ $store.state.user.lastName }}
+      </div>
+      <div style="height:50px" />
+      <q-separator />
+      <div class="q-pt-md">
+        {{ $t("invoiceMessage") }}: IBAN {{ formattedIBAN }}.
+      </div>
+      <div>{{ $t("invoiceMessageDepot") }}.</div>
+      <div style="height:25px" />
     </div>
   </q-page>
 </template>
@@ -104,9 +118,9 @@ export default {
   computed: {
     titel() {
       if (this.invoiceData.Titel.includes("verkauf")) {
-        return this.$t("paperBuyInvoice");
-      } else {
         return this.$t("paperSellInvoice");
+      } else {
+        return this.$t("paperBuyInvoice");
       }
     },
     formattedDate() {
@@ -128,6 +142,12 @@ export default {
         default:
           return new Date(this.invoiceData.Datum).toLocaleString("de-de");
       }
+    },
+    formattedIBAN() {
+      return this.formatToIBAN(
+        this.$store.state.user.IBAN,
+        "#### #### #### #### #### ##"
+      );
     }
   },
   watch: {},
@@ -158,6 +178,11 @@ export default {
     getDescription(string) {
       var str = string.split(": ");
       return this.$t("share") + " " + str[1];
+    },
+    formatToIBAN(value, pattern) {
+      var i = 0,
+        v = value.toString();
+      return pattern.replace(/#/g, _ => v[i++]);
     }
   }
 };

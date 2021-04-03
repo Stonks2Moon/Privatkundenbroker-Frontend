@@ -4,8 +4,8 @@
     v-if="stockName"
   >
     <q-icon name="schedule" size="225%" />
-    <div class="row col q-pl-sm items-center full-width">
-      <div class="col-3 q-pr-lg">
+    <div class="row col q-px-sm items-center full-width">
+      <div class="col-5 q-pr-lg">
         <div class="text-uppercase text-no-wrap">
           {{ orderData.name }}
         </div>
@@ -13,44 +13,48 @@
           {{ stockName }}
         </div>
       </div>
+      <div class="column col-4">
+        <div class="col">
+          <div class="row full-width no-wrap text-no-wrap">
+            <div class="q-pr-sm text-uppercase text-bold">
+              {{ orderMethod }}
+            </div>
+            <div class="text-caption">
+              {{ orderData.Anzahl }}
+              {{ $t("pieces") }}
+            </div>
+          </div>
+          <div class="row no-wrap text-no-wrap">
+            <div class="q-pr-sm text-caption">
+              {{ orderData.OrderAuftragTypBeschreibung }}
+            </div>
+          </div>
+        </div>
 
-      <div class="col-3">
-        <div class="row full-width no-wrap text-no-wrap">
-          <div class="q-pr-sm text-uppercase text-bold">{{ orderMethod }}</div>
-          <div class="text-caption">
-            {{ orderData.Anzahl }}
-            {{ $t("pieces") }}
+        <div class="col">
+          <div class="row no-wrap text-no-wrap" v-if="orderData.Stop">
+            <div class="q-pr-sm text-caption">{{ $t("stop") }}:</div>
+            <div class="text-bold text-uppercase">
+              {{ orderData.Stop.toFixed(2) }} €
+            </div>
           </div>
-        </div>
-        <div class="row no-wrap text-no-wrap">
-          <div class="q-pr-sm text-caption">
-            {{ orderData.OrderAuftragTypBeschreibung }}
-          </div>
-        </div>
-      </div>
-
-      <div class="col-3">
-        <div class="row no-wrap text-no-wrap" v-if="orderData.Stop">
-          <div class="q-pr-sm text-caption">{{ $t("stop") }}:</div>
-          <div class="text-bold text-uppercase">
-            {{ orderData.Stop.toFixed(2) }} €
-          </div>
-        </div>
-        <div class="row no-wrap text-no-wrap" v-if="orderData.Limit">
-          <div class="q-pr-sm text-caption">{{ $t("limit") }}:</div>
-          <div class="text-bold text-uppercase">
-            {{ orderData.Limit.toFixed(2) }} €
+          <div class="row no-wrap text-no-wrap" v-if="orderData.Limit">
+            <div class="q-pr-sm text-caption">{{ $t("limit") }}:</div>
+            <div class="text-bold text-uppercase">
+              {{ orderData.Limit.toFixed(2) }} €
+            </div>
           </div>
         </div>
       </div>
       <q-space />
-      <div class="col-1 text-right">
+      <div class="col-2 text-right">
         {{ formattedDate }}
       </div>
+      <q-space />
+      <div class="col q-pl-xs">
+        <q-btn round flat icon="cancel" @click="toggleDeleteOrder" />
+      </div>
     </div>
-    <q-space />
-    <q-btn round flat icon="cancel" @click="toggleDeleteOrder" />
-
     <div>
       <q-dialog v-model="popupForDelete">
         <q-card class="bg-dark" style="width:300px;">

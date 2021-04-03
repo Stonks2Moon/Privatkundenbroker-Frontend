@@ -23,6 +23,7 @@
         </div>-->
       </div>
     </div>
+    <q-separator />
 
     <div class="col column q-ma-xs items-center">
       <div class="row full-width items-center q-ma-sm">

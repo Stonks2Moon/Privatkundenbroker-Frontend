@@ -95,8 +95,11 @@ export default {
   blocked: 'Blocked',
   invoiceID: 'Invoicenumber',
   description: 'Description',
-  position: 'Position',
+  position: 'Pos.',
   from: 'from',
   transactionFee: 'Transaction Fee',
-  share: 'Share'
+  share: 'Share',
+  invoiceMessage: 'The equivalent value will be debited to the following account',
+  invoiceMessageDepot: 'The shares are credited to your depot',
+  auftraggeber: 'Customer'
 }

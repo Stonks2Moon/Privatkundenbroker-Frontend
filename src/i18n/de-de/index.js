@@ -51,8 +51,8 @@ export default {
   noOpenOrders: 'Keine offenen Order vorhanden',
   transactions: 'Transaktionen',
   invoices: 'Rechnungen',
-  paperBuyInvoice: 'Wertpapierverkauf Abrechnung',
-  paperSellInvoice: 'Wertpapierkauf Abrechnung',
+  paperBuyInvoice: 'Wertpapierkauf Abrechnung',
+  paperSellInvoice: 'Wertpapierverkauf Abrechnung',
   noInvoices: 'Aktuell sind keine Rechnungen vorhanden',
   newestTransactions: "Übersicht der neusten Transaktionen",
   transfer: 'Überweisung',
@@ -96,8 +96,11 @@ export default {
   blocked: 'Blockiert',
   invoiceID: 'Rechnungsnummer',
   description: 'Beschreibung',
-  position: 'Position',
+  position: 'Pos.',
   from: 'vom',
   transactionFee: 'Transaktionsgebühr',
-  share: 'Wertpapier'
+  share: 'Wertpapier',
+  invoiceMessage: 'Der Gegenwert wird zu lasten des folgenden Kontos verbucht',
+  invoiceMessageDepot: 'Die Wertpapiere werden Ihrem Depot gutgeschrieben',
+  auftraggeber: 'Auftraggeber'
 }

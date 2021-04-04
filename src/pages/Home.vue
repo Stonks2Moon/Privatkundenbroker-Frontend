@@ -221,7 +221,7 @@ export default {
           if (responseData.success) {
             this.orderData = [];
             responseData.data.forEach(element => {
-              if (element.OrderstatusID !== 3) {
+              if (element.OrderstatusID >= 4) {
                 this.orderData.push(element);
               }
             });

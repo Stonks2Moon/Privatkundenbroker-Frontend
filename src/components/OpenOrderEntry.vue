@@ -126,7 +126,7 @@ export default {
     deleteOrder() {
       this.$axios
         .delete(
-          `order?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&orderID=${this.orderData.OrderID}&depotID=${this.$store.state.user.depotID}`
+          `deleteOrder?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&orderID=${this.orderData.OrderID}&depotID=${this.$store.state.user.depotID}`
         )
         .then(response => {
           var responseData = response.data;

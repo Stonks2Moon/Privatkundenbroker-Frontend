@@ -93,6 +93,7 @@ export default {
   confirm: 'Bestätigen',
   created: 'Die Order wurde erfolgreich platziert',
   notEnoughMoney: 'Überschreitung des Guthabens',
+  allowedAmount: 'Überschreitung der maximal erlaubten Anzahl',
   blocked: 'Blockiert',
   invoiceID: 'Rechnungsnummer',
   description: 'Beschreibung',
@@ -103,5 +104,6 @@ export default {
   invoiceMessage: 'Der Gegenwert wird zu lasten des folgenden Kontos verbucht',
   invoiceMessageDepot: 'Die Wertpapiere werden Ihrem Depot gutgeschrieben',
   auftraggeber: 'Auftraggeber',
-  noShares: 'Es sind aktuell keine Wertpapiere im Depot vorhanden'
+  noShares: 'Es sind aktuell keine Wertpapiere im Depot vorhanden',
+  created: 'Deine Order wurde erfolgreich platziert'
 }

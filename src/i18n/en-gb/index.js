@@ -92,6 +92,7 @@ export default {
   closed: 'Closed',
   confirm: 'Bestätigen',
   notEnoughMoney: 'Exceeding the credit',
+  allowedAmount: 'Exceeding the possible Order-Amount',
   blocked: 'Blocked',
   invoiceID: 'Invoicenumber',
   description: 'Description',
@@ -102,5 +103,6 @@ export default {
   invoiceMessage: 'The equivalent value will be debited to the following account',
   invoiceMessageDepot: 'The shares are credited to your depot',
   auftraggeber: 'Customer',
-  noShares: 'At this moment there a no shares in your Wallet'
+  noShares: 'At this moment there a no shares in your Wallet',
+  created: 'Your Order was placed successfully'
 }

@@ -171,12 +171,12 @@
             />
           </q-card-section>
         </div>
-        <div v-if="selectedOrderType === 'Stop-Limit'">
+        <div v-if="selectedOrderType === 'Stop Limit'">
           <q-card-section>
             <q-input
               filled
               type="number"
-              v-model="stopForStopLimitOrderPrice"
+              v-model="stopValue"
               :label="$t('stop')"
               suffix="€"
             >
@@ -254,6 +254,61 @@
             </q-input>
           </q-card-section>
         </div>
+        <div v-if="selectedOrderType === 'Stop Market'">
+          <q-card-section>
+            <q-input
+              filled
+              type="number"
+              v-model="stopValue"
+              :label="$t('stop')"
+              suffix="€"
+            >
+              <template v-slot:append>
+                <q-btn
+                  flat
+                  round
+                  icon="add"
+                  @click="growStopForStopLimitOrder"
+                />
+              </template>
+              <template v-slot:prepend>
+                <q-btn
+                  flat
+                  round
+                  icon="remove"
+                  @click="reduceStopForStopLimitOrder"
+                />
+              </template>
+            </q-input>
+          </q-card-section>
+          <q-card-section>
+            <q-input
+              filled
+              v-model.number="amountOfShares"
+              :rules="[val => val >= 0 || $t('onlyPositiveNumber')]"
+              lazy-rules
+              hide-bottom-space
+              :label="$t('amount')"
+            >
+              <template v-slot:append>
+                <q-btn flat round icon="add" @click="growAmountOfShares" />
+              </template>
+              <template v-slot:prepend>
+                <q-btn flat round icon="remove" @click="reduceAmountOfShares" />
+              </template>
+            </q-input>
+          </q-card-section>
+          <q-card-section>
+            <q-input
+              disable
+              filled
+              v-model.number="calculatedPriceForStopMarketOrder"
+              :label="$t('overallCalculatedPrice')"
+              suffix="€"
+            >
+            </q-input>
+          </q-card-section>
+        </div>
         <q-space />
         <q-separator class="q-mx-sm" />
         <q-card-section v-if="selectedOrderType === 'Limit'">
@@ -278,7 +333,7 @@
             @click="createMarketOrder"
           />
         </q-card-section>
-        <q-card-section v-if="selectedOrderType === 'Stop-Limit'">
+        <q-card-section v-if="selectedOrderType === 'Stop Limit'">
           <q-btn
             :disable="amountOfShares <= 0"
             :label="$t('placeOrder')"
@@ -287,6 +342,17 @@
             class="full-width"
             color="primary"
             @click="createStopLimitOrder"
+          />
+        </q-card-section>
+        <q-card-section v-if="selectedOrderType === 'Stop Market'">
+          <q-btn
+            :disable="amountOfShares <= 0"
+            :label="$t('placeOrder')"
+            size="lg"
+            no-caps
+            class="full-width"
+            color="primary"
+            @click="createStopMarketOrder"
           />
         </q-card-section>
       </q-card>
@@ -374,6 +440,14 @@ export default {
         return "";
       }
     },
+    calculatedPriceForStopMarketOrder() {
+      var calcPrice = Number(this.stopValue * this.amountOfShares).toFixed(2);
+      if (Number(calcPrice) !== 0.0) {
+        return calcPrice;
+      } else {
+        return "";
+      }
+    },
     statusColor() {
       if (this.trendAbsolute < 0) {
         return "red-7";
@@ -394,12 +468,12 @@ export default {
   data() {
     return {
       selectedOrderType: "Limit",
-      orderTypeOptions: ["Limit", "Market", "Stop-Limit"],
+      orderTypeOptions: ["Limit", "Market", "Stop Limit", "Stop Market"],
       isBuyButtonPressed: true,
       showPercentageTrendData: true,
       limitOrderPrice: 0,
-      stopForStopLimitOrderPrice: 0,
       limitForStopLimitOrderPrice: 0,
+      stopValue: 0,
       amountOfShares: 0,
       stockData: [],
       historyData: [],
@@ -448,12 +522,10 @@ export default {
           var responseData = response.data;
           if (responseData.success) {
             var response = responseData.data;
-            this.amountOfShares = 0;
+            this.resetVariables();
             this.showOrderStatus = true;
           } else {
-            if (responseData.message.includes("not enough")) {
-              this.notifyForBadRequest("notEnoughMoney");
-            }
+            this.checkNegativeResponse(responseData.message);
             console.log(responseData);
           }
         });
@@ -467,12 +539,10 @@ export default {
           var responseData = response.data;
           if (responseData.success) {
             var response = responseData.data;
-            this.amountOfShares = 0;
+            this.resetVariables();
             this.showOrderStatus = true;
           } else {
-            if (responseData.message.includes("not enough")) {
-              this.notifyForBadRequest("notEnoughMoney");
-            }
+            this.checkNegativeResponse(responseData.message);
             console.log(responseData);
           }
         });
@@ -480,18 +550,33 @@ export default {
     createStopLimitOrder() {
       this.$axios
         .post(
-          `${this.stringForOrder}?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&depotID=${this.$store.state.user.depotID}&shareID=${this.stockID}&type=${this.selectedOrderType}&amount=${this.amountOfShares}&limit=${this.limitOrderPrice}&stop=${this.stopForStopLimitOrderPrice}`
+          `${this.stringForOrder}?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&depotID=${this.$store.state.user.depotID}&shareID=${this.stockID}&type=${this.selectedOrderType}&amount=${this.amountOfShares}&limit=${this.limitOrderPrice}&stop=${this.stopValue}`
         )
         .then(response => {
           var responseData = response.data;
           if (responseData.success) {
             var response = responseData.data;
-            this.amountOfShares = 0;
+            this.resetVariables();
             this.showOrderStatus = true;
           } else {
-            if (responseData.message.includes("not enough")) {
-              this.notifyForBadRequest("notEnoughMoney");
-            }
+            this.checkNegativeResponse(responseData.message);
+            console.log(responseData);
+          }
+        });
+    },
+    createStopMarketOrder() {
+      this.$axios
+        .post(
+          `${this.stringForOrder}?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&depotID=${this.$store.state.user.depotID}&shareID=${this.stockID}&type=${this.selectedOrderType}&amount=${this.amountOfShares}&stop=${this.stopValue}`
+        )
+        .then(response => {
+          var responseData = response.data;
+          if (responseData.success) {
+            var response = responseData.data;
+            this.resetVariables();
+            this.showOrderStatus = true;
+          } else {
+            this.checkNegativeResponse(responseData.message);
             console.log(responseData);
           }
         });
@@ -554,14 +639,10 @@ export default {
       );
     },
     growStopForStopLimitOrder() {
-      this.stopForStopLimitOrderPrice = (
-        parseFloat(this.stopForStopLimitOrderPrice) + 1
-      ).toFixed(2);
+      this.stopValue = (parseFloat(this.stopValue) + 1).toFixed(2);
     },
     reduceStopForStopLimitOrder() {
-      this.stopForStopLimitOrderPrice = (
-        parseFloat(this.stopForStopLimitOrderPrice) - 1
-      ).toFixed(2);
+      this.stopValue = (parseFloat(this.stopValue) - 1).toFixed(2);
     },
     growLimitForStopLimitOrder() {
       this.limitForStopLimitOrderPrice = (
@@ -584,6 +665,18 @@ export default {
         color: "negative",
         message: this.$t(message) + "!"
       });
+    },
+    resetVariables() {
+      this.limitForStopLimitOrderPrice = 0;
+      this.amountOfShares = 0;
+      this.stopValue = 0;
+    },
+    checkNegativeResponse(message) {
+      if (message.includes("not enough")) {
+        this.notifyForBadRequest("notEnoughMoney");
+      } else if (message.includes("allowed amount")) {
+        this.notifyForBadRequest("allowedAmount");
+      }
     }
   }
 };

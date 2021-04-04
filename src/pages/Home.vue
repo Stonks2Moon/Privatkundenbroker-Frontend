@@ -219,6 +219,7 @@ export default {
         .then(response => {
           var responseData = response.data;
           if (responseData.success) {
+            this.orderData = [];
             responseData.data.forEach(element => {
               if (element.OrderstatusID !== 3) {
                 this.orderData.push(element);

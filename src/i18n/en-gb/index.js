@@ -104,5 +104,6 @@ export default {
   invoiceMessageDepot: 'The shares are credited to your depot',
   auftraggeber: 'Customer',
   noShares: 'At this moment there a no shares in your Wallet',
-  created: 'Your Order was placed successfully'
+  created: 'Your Order was placed successfully',
+  abbruch: 'Cancelled'
 }

@@ -1,24 +1,30 @@
 <template>
   <div
-    v-if="stockName || !isShareBuyOrSell"
-    :class="transaction.Betrag <= 0 ? 'bg-red' : 'bg-green'"
+    v-if="stockName || !isShareBuyOrSell || isCancelled"
+    :class="
+      transaction.Betrag > 0
+        ? 'bg-green'
+        : transaction.Betrag === 0
+        ? 'bg-dark'
+        : 'bg-red'
+    "
     class="col q-my-md q-pa-sm shadow-3 rounded-borders"
   >
     <div class="row no-wrap items-center" style="font-size:20px">
       <div class="col">{{ description }}</div>
 
       <q-space />
-      <div>{{ costs }} €</div>
+      <div v-if="!isCancelled">{{ costs }} €</div>
     </div>
     <div class="row">
       <div class="text-caption text-bold">
         {{ formattedDate }}
       </div>
       <q-space />
-      <div class="text-caption" v-if="!isShareBuyOrSell">
+      <div class="text-caption" v-if="!isShareBuyOrSell && !isCancelled">
         {{ destination }} {{ formattedIBAN }}
       </div>
-      <div class="text-caption" v-if="isShareBuyOrSell">
+      <div class="text-caption" v-if="isShareBuyOrSell || isCancelled">
         {{ $t("amount") }}: {{ this.transaction.Anzahl }}
       </div>
     </div>
@@ -65,20 +71,45 @@ export default {
           return this.$t("withdrawal");
       }
       let descriptionSplit = description.split(":");
-      if (description.includes("Aktienkauf")) {
+      if (
+        description.includes("Aktienkauf") &&
+        !description.includes("ABBRUCH")
+      ) {
         return (
           this.$t("shareBuy") + ": " + (this.stockName ? this.stockName : "")
         );
-      } else if (description.includes("Aktienverkauf")) {
+      } else if (
+        description.includes("Aktienverkauf") &&
+        !description.includes("ABBRUCH")
+      ) {
         return (
           this.$t("shareSell") + ": " + (this.stockName ? this.stockName : "")
+        );
+      } else if (description.includes("ABBRUCH")) {
+        return (
+          this.$t("abbruch") +
+          ": " +
+          (description.includes("Aktienkauf")
+            ? this.$t("shareBuy")
+            : this.$t("shareSell")) +
+          (this.stockName ? " " + this.stockName : "")
         );
       } else {
         return "";
       }
     },
     isShareBuyOrSell() {
-      if (this.transaction.Beschreibung.includes("Aktien")) {
+      if (
+        this.transaction.Beschreibung.includes("Aktien") &&
+        !this.transaction.Beschreibung.includes("ABBRUCH")
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    isCancelled() {
+      if (this.transaction.Beschreibung.includes("ABBRUCH")) {
         return true;
       } else {
         return false;
@@ -105,7 +136,8 @@ export default {
       if (this.transaction.Beschreibung.includes("Aktien")) {
         let descriptionSplit = this.transaction.Beschreibung.split(": ");
         let str = descriptionSplit[1].replace(" Anzahl", "");
-        return str;
+        //return str;
+        return this.transaction.ShareRefID;
       } else {
         return "";
       }

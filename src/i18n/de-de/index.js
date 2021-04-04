@@ -105,5 +105,6 @@ export default {
   invoiceMessageDepot: 'Die Wertpapiere werden Ihrem Depot gutgeschrieben',
   auftraggeber: 'Auftraggeber',
   noShares: 'Es sind aktuell keine Wertpapiere im Depot vorhanden',
-  created: 'Deine Order wurde erfolgreich platziert'
+  created: 'Deine Order wurde erfolgreich platziert',
+  abbruch: 'Abbruch',
 }

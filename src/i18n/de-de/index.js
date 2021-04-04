@@ -102,5 +102,6 @@ export default {
   share: 'Wertpapier',
   invoiceMessage: 'Der Gegenwert wird zu lasten des folgenden Kontos verbucht',
   invoiceMessageDepot: 'Die Wertpapiere werden Ihrem Depot gutgeschrieben',
-  auftraggeber: 'Auftraggeber'
+  auftraggeber: 'Auftraggeber',
+  noShares: 'Es sind aktuell keine Wertpapiere im Depot vorhanden'
 }

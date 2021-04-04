@@ -1,62 +1,70 @@
 <template>
   <q-page>
     <div class="q-pa-md">
-      <div
-        class="col q-ma-xs full-width no-wrap items-center"
-        v-if="depotData.balance"
-      >
-        <div class="row text-weight-bolder items-center" style="font-size:22px">
-          <q-icon name="insights" class="q-pr-md" />
-          <div>
-            <div>{{ $t("depot") }}</div>
-            <div class="row text-caption" style="font-size:14px">
-              {{ $t("depotID") }}:
-              <div class="q-pl-xs">{{ $store.state.user.depotID }}</div>
+      <div class="col q-ma-xs full-width no-wrap items-center">
+        <div class="col q-py-md">
+          <div
+            class="row text-weight-bolder items-center"
+            style="font-size:22px"
+          >
+            <q-icon name="insights" class="q-pr-md" />
+            <div>
+              <div>{{ $t("depot") }}</div>
+              <div class="row text-caption" style="font-size:14px">
+                {{ $t("depotID") }}:
+                <div class="q-pl-xs">{{ $store.state.user.depotID }}</div>
+              </div>
             </div>
+            <q-space />
+            <div v-if="depotBalance !== 'NaN'">{{ depotBalance }}</div>
           </div>
-          <q-space />
-          {{ depotBalance }}
+          <div class="col q-pt-sm">
+            <PieChart
+              :depotData="depotData.positions"
+              v-if="depotData.positions.length !== 0"
+            />
+            <div v-else class="q-pt-sm">{{ $t("noShares") }}.</div>
+            <DepotEntry
+              v-for="stockData in depotData.positions"
+              :key="stockData.ID"
+              :stockData="stockData"
+            />
+          </div>
         </div>
-        <div class="col q-pt-sm" v-if="depotData.positions">
-          <PieChart :depotData="depotData.positions" />
-          <DepotEntry
-            v-for="stockData in depotData.positions"
-            :key="stockData.ID"
-            :stockData="stockData"
-          />
-        </div>
-        <div
-          class="row text-weight-bolder items-center no-wrap text-no-wrap"
-          style="font-size:22px"
-        >
-          <q-icon name="account_balance_wallet" class="q-pr-md" />
-          <div>
-            <div>{{ $t("wallet") }}</div>
-            <div class="row text-caption" style="font-size:14px">
-              {{ formattedIBAN }}
+        <div class="col q-py-md">
+          <div
+            class="row text-weight-bolder items-center no-wrap text-no-wrap"
+            style="font-size:22px"
+          >
+            <q-icon name="account_balance_wallet" class="q-pr-md" />
+            <div>
+              <div>{{ $t("wallet") }}</div>
+              <div class="row text-caption" style="font-size:14px">
+                {{ formattedIBAN }}
+              </div>
             </div>
-          </div>
 
-          <q-space />
-          <div v-if="walletData.balance">{{ walletBalance }}</div>
-        </div>
-        <div class="q-pt-sm">{{ $t("newestTransactions") }} ...</div>
-        <div v-if="walletData.transactions">
-          <TransactionEntry
-            v-for="transaction in walletData.transactions.slice(0, 4)"
-            :key="transaction.TransaktionsID"
-            :transaction="transaction"
-          />
-        </div>
-        <div class="row">
-          <q-space /><q-btn
-            icon-right="payments"
-            rounded-borders
-            class="bg-dark"
-            no-caps
-            :label="$t('withdrawal')"
-            @click="togglePopUpForTransfer"
-          />
+            <q-space />
+            <div v-if="walletBalance !== 'NaN'">{{ walletBalance }}</div>
+          </div>
+          <div class="q-pt-sm">{{ $t("newestTransactions") }} ...</div>
+          <div v-if="walletData.transactions">
+            <TransactionEntry
+              v-for="transaction in walletData.transactions.slice(0, 4)"
+              :key="transaction.TransaktionsID"
+              :transaction="transaction"
+            />
+          </div>
+          <div class="row">
+            <q-space /><q-btn
+              icon-right="payments"
+              rounded-borders
+              class="bg-dark"
+              no-caps
+              :label="$t('withdrawal')"
+              @click="togglePopUpForTransfer"
+            />
+          </div>
         </div>
         <q-dialog v-model="popUpForTransfer">
           <q-card class="bg-dark" style="width:300px;">
@@ -110,20 +118,25 @@
             </form>
           </q-card>
         </q-dialog>
-        <div class="row text-weight-bolder items-center" style="font-size:24px">
-          <q-icon name="menu_open" class="q-pr-md" />
-          <div>{{ $t("openOrders") }}</div>
-        </div>
-        <div v-if="orderData.length !== 0">
-          <OpenOrderEntry
-            v-for="order in orderData"
-            :key="order.OrderID"
-            :orderData="order"
-            @deleteOrderSend="reloadOrderData($event)"
-          />
-        </div>
-        <div v-else class="row q-pt-sm">
-          {{ $t("noOpenOrders") }}
+        <div class="col q-py-md">
+          <div
+            class="row text-weight-bolder items-center"
+            style="font-size:24px"
+          >
+            <q-icon name="menu_open" class="q-pr-md" />
+            <div>{{ $t("openOrders") }}</div>
+          </div>
+          <div v-if="orderData.length !== 0">
+            <OpenOrderEntry
+              v-for="order in orderData"
+              :key="order.OrderID"
+              :orderData="order"
+              @deleteOrderSend="reloadOrderData($event)"
+            />
+          </div>
+          <div v-else class="row q-pt-sm">
+            {{ $t("noOpenOrders") }}
+          </div>
         </div>
       </div>
     </div>

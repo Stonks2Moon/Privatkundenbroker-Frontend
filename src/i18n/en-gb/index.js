@@ -101,5 +101,6 @@ export default {
   share: 'Share',
   invoiceMessage: 'The equivalent value will be debited to the following account',
   invoiceMessageDepot: 'The shares are credited to your depot',
-  auftraggeber: 'Customer'
+  auftraggeber: 'Customer',
+  noShares: 'At this moment there a no shares in your Wallet'
 }

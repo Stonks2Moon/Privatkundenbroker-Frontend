@@ -51,7 +51,8 @@
         {{ formattedDate }}
       </div>
       <q-space />
-      <div class="col q-pl-xs">
+      <div class="col row q-pl-xs">
+        <q-space />
         <q-btn round flat icon="cancel" @click="toggleDeleteOrder" />
       </div>
     </div>

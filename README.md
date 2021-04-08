@@ -59,10 +59,14 @@ Im Transaktions-Bereich wird dem Nutzer eine Übersicht aller bisherigen Transak
 
 ### Rechnungen
 
+Des Weiteren werden dem Nutzer im Rechnungs-Bereich alle Rechnungen aufgelistet. Innerhalb der Rechnung werden die Kontaktdaten dargestellt, Informationen zum Kunden und dem Depot. Es folgt eine Auflistung der Positionen inklusive der Beschreibung und dem Wert. Mit Addition der Transaktionsgebühr ergibt sich der vollständige Rechnungspreis.
 
+### Profil-Bereich
+
+Der Nutzer kann die Sprache der WebApp anpassen, zur Zeit Deutsch und Englisch. Ebenso kann zwischen dem Hell- und Dunkelmodus gewechselt werden. In der Profil-Übersicht werden alle Kontaktdaten und die Kundennummer aufgelistet. Dabei kann nachträglich die Adresse aktualisiert und das Passwort geändert werden.
 
 ## Features
 
 Da die Web-App auf die Mehrsprachigkeita ausgelegt werden soll, ist es notwendig, mehrere Sprachen zu unterstützen. Im Ordner **i18n** befindet sich eine zentrale Datei, die **index.js** die dafür zuständig ist, die jeweiligen Sprachdateien zu laden. Die dementsprechenden Sprachdateien werden in einem Unterordern innerhalb **i18n** mit einer neuen Datei **index.js** angelegt. In dieser Datei werden alle relevanten Anzeigetexte angegeben. Durch das Erstellen einer solchen Datei kann unkompliziert eine weitere Sprache hinzugefügt werden, sobald die Texte händisch übersetzt worden sind. Im Code kann somit über **$t.kuerzel** auf den Anzeigetext zugegriffen werden. Dieser passt sich der ausgewählten Sprache an.
 
-Zusätzlich wurde sowohl der Hell- als auch Dunkelmodus implementiert, um den Nutzer, nach seinen Präferzen, das best mögliche User Interface zu liefern.
+Zusätzlich wurde für die beste User Experience sowohl der Hell- als auch Dunkelmodus implementiert, um den Nutzer, nach seinen Präferzen, das best mögliche User Interface zu liefern. Darüber hinaus wird ein automatisierter Login angeboten, wenn sich der Nutzer nicht vorher abgemeldet hat.

@@ -49,7 +49,13 @@
       <q-space />
       <div class="col row q-pl-xs">
         <q-space />
-        <q-btn round flat icon="cancel" @click="toggleDeleteOrder" />
+        <q-btn
+          :disable="orderData.BoerseOrderRefID === null"
+          round
+          flat
+          icon="cancel"
+          @click="toggleDeleteOrder"
+        />
       </div>
     </div>
     <div>

@@ -34,7 +34,7 @@ Weitere Vorteile:
 
 ## Struktur des Codes
 
-
+Grundsätzlich kann die Struktur des Codes mehrere Bereiche untergliedert werden. Im Unterordner **boot** können andere Libraries importiert werden. Dafür wird jeweile eine neue Boot-Datei angelegt, wodruch im Code auf diese dann zugefriffen werden kann. Im Unterordner **Components** werden einzelne UI-Elemente programmiert, die entweder oftmals wiederverwendet werden, oder in sich abgekapselt sein sollten. Der Unterorder **Pages** enthält alle einzelnen Webpages, die wiederum Components werden können. Der Unterorder **Layout** beihnhaltet zwei verschieden Layouts: das Login- und Mainlayout. Somit werden die jeweiligen Pages dann in das passende Layout eingebettet. Geregelt wird dies und das Routing zwischen den Pages über die **index.js** und die **routes.js** im Unterordner **Router**. Interessant sind zusätzlich die Unterordern **Store** und **I18N**. Im **Store**-Unterordner kann eine Viezahl an Datenmodellen angelegt werden, die persistent Daten innerhalb der WebApp speichern und ändern können. So bietet sich darüber an, Nutzerdaten zu speichern und bspw. die aktuellen UI-Einstellungen wie die Sprache oder der Farbmodus. Auf die Funktionsweise der Unterstützung der Mehrsprachigkeit durch den Unterordner **I18N** wird nachfolgend genauer eingegangen. 
 
 ## Aufbau der WebApp
 

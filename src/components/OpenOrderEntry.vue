@@ -1,16 +1,12 @@
 <template>
   <div
     class="row no-wrap q-my-md q-pa-sm bg-dark shadow-3 rounded-borders items-center"
-    v-if="stockName"
   >
     <q-icon name="schedule" size="225%" />
     <div class="row col q-px-sm items-center full-width">
       <div class="col-5 q-pr-lg">
-        <div class="text-uppercase text-no-wrap">
-          {{ orderData.name }}
-        </div>
         <div class="text-caption text-no-wrap" style="font-size:18px">
-          {{ stockName }}
+          {{ orderData.WertpapierBezeichnung }}
         </div>
       </div>
       <div class="column col-4">
@@ -112,13 +108,10 @@ export default {
   },
   data() {
     return {
-      popupForDelete: false,
-      stockName: ""
+      popupForDelete: false
     };
   },
-  created() {
-    this.loadShareData();
-  },
+  created() {},
   methods: {
     toggleDeleteOrder() {
       this.popupForDelete = !this.popupForDelete;
@@ -134,20 +127,6 @@ export default {
             this.$emit("deleteOrderSend");
           } else {
             console.log(response);
-          }
-        });
-    },
-    loadShareData() {
-      this.$axios
-        .get(
-          `getShare?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&shareID=${this.orderData.ShareRefID}`
-        )
-        .then(response => {
-          var responseData = response.data;
-          if (responseData.success) {
-            this.stockName = responseData.data.name;
-          } else {
-            console.log(responseData);
           }
         });
     }

@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="stockName || !isShareBuyOrSell || isCancelled"
     :class="
       transaction.Betrag > 0
         ? 'bg-green'
@@ -41,13 +40,9 @@ export default {
     }
   },
   data() {
-    return { stockName: null };
+    return {};
   },
-  created() {
-    if (this.stockID !== "" && this.stockID) {
-      this.loadShareData();
-    }
-  },
+  created() {},
   computed: {
     formattedDate() {
       switch (this.$store.state.settings.language) {
@@ -76,14 +71,14 @@ export default {
         !description.includes("ABBRUCH")
       ) {
         return (
-          this.$t("shareBuy") + ": " + (this.stockName ? this.stockName : "")
+          this.$t("shareBuy") + ": " + this.transaction.WertpapierBezeichnung
         );
       } else if (
         description.includes("Aktienverkauf") &&
         !description.includes("ABBRUCH")
       ) {
         return (
-          this.$t("shareSell") + ": " + (this.stockName ? this.stockName : "")
+          this.$t("shareSell") + ": " + this.transaction.WertpapierBezeichnung
         );
       } else if (description.includes("ABBRUCH")) {
         return (
@@ -92,7 +87,8 @@ export default {
           (description.includes("Aktienkauf")
             ? this.$t("shareBuy")
             : this.$t("shareSell")) +
-          (this.stockName ? " " + this.stockName : "")
+          " " +
+          this.transaction.WertpapierBezeichnung
         );
       } else {
         return "";
@@ -153,20 +149,6 @@ export default {
     }
   },
   methods: {
-    loadShareData() {
-      this.$axios
-        .get(
-          `getShare?email=${this.$store.state.user.email}&hashedPassword=${this.$store.state.user.passwordHash}&shareID=${this.stockID}`
-        )
-        .then(response => {
-          var responseData = response.data;
-          if (responseData.success) {
-            this.stockName = responseData.data.name;
-          } else {
-            console.log(responseData);
-          }
-        });
-    },
     formatToIBAN(value, pattern) {
       var i = 0,
         v = value.toString();

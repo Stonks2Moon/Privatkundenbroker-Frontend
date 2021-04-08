@@ -18,24 +18,16 @@ quasar dev
 ```
 ## Technologieentscheidung
 
-Heutzutage entwickelt sich der Trend, dass Nutzer ungern Apps installieren und stattdessen eine Webseite nutzen, die ihre Wünsche erfüllt. Zusätzlich kann eine Web-App, im Vergleich zu einer nativen oder Cross-Plattform-App, ohne Probleme sowohl auf Desktop- und mobilen Endgeräten genutzt werden. Dementsprechend wurde für die Entwicklung des Frontends auf folgende Technologien gesetzt:
+Heutzutage entwickelt sich der Trend, dass Nutzer ungern Apps installieren und stattdessen eine Webseite nutzen, die ihre Wünsche erfüllt. Zusätzlich kann eine Web-App, im Vergleich zu einer nativen oder Cross-Plattform-App, ohne Probleme sowohl auf Desktop- und mobilen Endgeräten genutzt werden. Aufgrund dieser Tatsache, wird die App nach dem Mobile First Ansatz entwickelt. Der Mobile First Ansatz ist nach dem Glossar des französischen Web-Analytics Unternehmens AT Internet eine Herangehensweise, den Entwurf einer Webanwendung mit der mobilen Version zu starten und diese dann an größere Bildschirme anzupassen, um unter anderem die Benutzerfreundlichkeit von Beginn an zu verbessern. Dementsprechend wurde für die Entwicklung des Frontends auf folgende Technologien gesetzt:
 
 ### Vue.js
 
-Vue.js ist eine der bekanntesten State-of-the-Art Lösungen für Web-Applikationen, die sich mit nachfolgenden Pro's für das FYB-Projekt durchsetzen konnte:
-
-- Einfachheit
-- Große Entwickler-Community
-- Ausgereifte Dokumentationen
-- Zukunftsorientiert
-- Integrationsmöglichkeiten
+Vue.js ist einer der bekanntesten State-of-the-Art Lösungen für Web-Applikationen, die sichmit nachfolgenden Vorteilen für die MoonStonks-WebApp durchsetzen konnten. Zum einem ist Vue.js einfach und schnell lernbar, im Hintergrund befindet sich eine große Entwickler-Community mit ausgereiften Dokumentationen. Ein großer Vorteil sind zudem die zahlreichen Integrationsmöglichkeiten externer Komponenten.
 
 ### Quasar
 
-Aufbauend zu Vue.js wurde auf Quasar gesetzt. Quasar stellt ein Vue.js unterstützendes Frontend-Framework dar. Es bietet die Möglichkeit, Single-Page-Anwendungen (SPA's), Progressiv-Web-Apps (PWA'S), etc. auf einer Codebasis zu erstellen. Für den Einsatz von Quasar sprechen vor allem nachfolgende Gründe:
+Aufbauend zu Vue.js wurde auf Quasar CLI gesetzt. Quasar stellt ein Vue.js unterstützendes Frontend-Framework dar, das die Möglichkeit bietet, bspw. Single-Page-Anwendungenund Progressiv-Web-Applikationen auf einer Codebasis zu erstellen. Für den Einsatz von Quasar sprechen vor allem ein sehr effizient gestalteter Entwicklungsprozess, eine ausgereifte Dokumentation und die Vielzahl an vorgefertigten Custom-Controls, die im Vergleichzu Vue.js sofort einsetzbar sind.
 
+Weitere Vorteile:
 - Erweiterbarkeit
-- Effizient gestalteter Entwicklungs-Progress
-- Sehr gute Dokumentationen
 - Cross-Plattform
-- Vielzahl an Custom-Controls -> Out-of-the-Box im Vergleich zu Vue.js

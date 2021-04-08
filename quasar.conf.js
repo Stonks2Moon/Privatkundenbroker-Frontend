@@ -74,7 +74,7 @@ cfg.module.rules.push({
         })
       },
       env: {
-        API_URL: ctx.dev ? 'http://192.168.8.20:3000/'
+        API_URL: ctx.dev ? 'http://localhost:3000/'
           : 'https://privat.moonstonks.space/backend/'
       }
     },

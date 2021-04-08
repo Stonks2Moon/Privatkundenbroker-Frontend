@@ -32,6 +32,10 @@ Weitere Vorteile:
 - Erweiterbarkeit
 - Cross-Plattform
 
+## Struktur des Codes
+
+
+
 ## Aufbau der WebApp
 
 Die Trading-App für Privatkunden ist hauptsächlich in 5 Bereiche unterteilt:
@@ -76,4 +80,6 @@ Zusätzlich wurde für die beste User Experience sowohl der Hell- als auch Dunke
 
 ### Diagramme
 
-
+Um dem Nutzer möglichst klar dazustellen, wie sein aktuelles Depotverhältnis aufgestellt ist, oder wie der Aktienkurs einer Aktie in der Vergangenheit verlaufen ist, wurden zwei Chart-Typen eingebaut. Für das Depotverhältnis viel die Wahl auf ein PieChart, einem Kreisdiagramm, da somit einfach, intuitiv und sehr übersichtlich das Verhältnis der einzelnen Positionen dargestellt wird. Zusätzlich kann bei Auswahl einer Aktie der genau Depotwert angezeigt werden.
+Für den Aktienkursverlauf wird eine dargestellt.
+Beide Charts stammen aus der Librarie der ECHarts. Die Wahl dafür fiel vor allem aufgrund der robusten und flexiblen Charttypen. Ein großer Punkt ist die gute Performance bei immer größer Anzahl an anzuzeigenden Daten. Des Weiteren ist positiv, dass die Charts viele Konfigurationsmöglichkeiten bieten, die auch ausgereift dokumentiert sind.

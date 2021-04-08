@@ -50,7 +50,7 @@
       <div class="col row q-pl-xs">
         <q-space />
         <q-btn
-          :disable="orderData.BoerseOrderRefID === null"
+          v-if="orderData.BoerseOrderRefID !== null"
           round
           flat
           icon="cancel"

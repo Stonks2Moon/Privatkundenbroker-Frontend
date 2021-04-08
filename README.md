@@ -41,6 +41,14 @@ Die Trading-App für Privatkunden ist hauptsächlich in 5 Bereiche unterteilt:
 - Rechnungen
 - Profil-Bereich
 
+### Übersicht
+
+Auf der Übersichtsseite erhält der Nutzer Einblicke über seine aktuellen Depotwerte. Dabei wird ein PieChart von eCharts angezeigt, das im Verhältnis die Verteilung der eigenen Positionen darstellt. In der Auflistung der Depotwerte wird angezeigt, wie viele Anteile im Besitz sind, was der durchschnittliche Kaufwert ist und der aktuelle Kurs. Darüber hinaus wird der aktuelle Gesamtwert und das Gewinn/Verlust-Verhältnis dargestellt.
+
+Zusätzlich wird dem Nutzer ein Einblick in sein Verrechnungskonto gewährt. Dabei werden seine IBAN, der aktuelle Kontostand und die neusten Transaktionen angezeigt. Ebenso kann eine Auszahlung an ein angegeben Bankkonto aufgegeben werden.
+
+Zuletzt werden im untersten Bereich die aktuell offenen Order angezeigt. Dabei wird die Information geliefert, um welche Position es sich handelt, was der Ausführungstyp ist, wie viele gekauft oder verkauft werden und wann diese Order aufgegeben wurde. Außerdem ist es möglich, eine offene Order händisch zu entfernen.
+
 ## Features
 
 Da die Web-App auf die Mehrsprachigkeita ausgelegt werden soll, ist es notwendig, mehrere Sprachen zu unterstützen. Im Ordner **i18n** befindet sich eine zentrale Datei, die **index.js** die dafür zuständig ist, die jeweiligen Sprachdateien zu laden. Die dementsprechenden Sprachdateien werden in einem Unterordern innerhalb **i18n** mit einer neuen Datei **index.js** angelegt. In dieser Datei werden alle relevanten Anzeigetexte angegeben. Durch das Erstellen einer solchen Datei kann unkompliziert eine weitere Sprache hinzugefügt werden, sobald die Texte händisch übersetzt worden sind. Im Code kann somit über **$t.kuerzel** auf den Anzeigetext zugegriffen werden. Dieser passt sich der ausgewählten Sprache an.

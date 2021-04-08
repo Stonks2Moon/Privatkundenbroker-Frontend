@@ -1,6 +1,6 @@
 # MoonStonks (private-moonstonks)
 
-Trade the best stonks to the moon
+Trade the best stonks to the moon! 🚀🌑
 
 ## Hinweise
 
@@ -34,7 +34,12 @@ Weitere Vorteile:
 
 ## Aufbau der WebApp
 
-
+Die Trading-App für Privatkunden ist hauptsächlich in 5 Bereiche unterteilt:
+- Übersicht
+- Order-Bereich
+- Transaktionen
+- Rechnungen
+- Profil-Bereich
 
 ## Features
 

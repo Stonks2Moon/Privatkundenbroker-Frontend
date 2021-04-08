@@ -49,6 +49,10 @@ Zusätzlich wird dem Nutzer ein Einblick in sein Verrechnungskonto gewährt. Dab
 
 Zuletzt werden im untersten Bereich die aktuell offenen Order angezeigt. Dabei wird die Information geliefert, um welche Position es sich handelt, was der Ausführungstyp ist, wie viele gekauft oder verkauft werden und wann diese Order aufgegeben wurde. Außerdem ist es möglich, eine offene Order händisch zu entfernen.
 
+### Order-Bereich
+
+Im Order-Bereich erhält der Nutzer eine Übersicht über die aktuell beliebtesten Aktien. Ebenso kann eine spezielle Akite gesucht werden. Angezeigt wird dabei der Name der Aktie, die ID, wie auch der aktuelle Kurs und die Kursveränderung zum Vortag. Wählt der Nutzer eine Aktie aus, so landet er auf der Orderseite, auf der angezeigt wird, ob gerade der Handel aktiv ist. Ebenso werden erneut der aktuelle Kurs wie auch die Kursveränderung zum Vortag sowol prozentual als auch absolut. Darüber hinaus wird in einem Chart der Kursverlauf dargestellt, der im Zeitraum angepasst werden kann. Des Weiteren kann eine Kaufs- oder Verkaufsorder plaziert werden. Dabei wählt der Nutzer den Order-Typ (Limit, Market, Stop Market, Stop Limit) aus und gibt die notwendigen Order-Informationen an. Im Hintergrund wird gleichzeitig jede zehn Sekunden der aktuelle Kurs abgefragt und angepasst.
+
 ## Features
 
 Da die Web-App auf die Mehrsprachigkeita ausgelegt werden soll, ist es notwendig, mehrere Sprachen zu unterstützen. Im Ordner **i18n** befindet sich eine zentrale Datei, die **index.js** die dafür zuständig ist, die jeweiligen Sprachdateien zu laden. Die dementsprechenden Sprachdateien werden in einem Unterordern innerhalb **i18n** mit einer neuen Datei **index.js** angelegt. In dieser Datei werden alle relevanten Anzeigetexte angegeben. Durch das Erstellen einer solchen Datei kann unkompliziert eine weitere Sprache hinzugefügt werden, sobald die Texte händisch übersetzt worden sind. Im Code kann somit über **$t.kuerzel** auf den Anzeigetext zugegriffen werden. Dieser passt sich der ausgewählten Sprache an.

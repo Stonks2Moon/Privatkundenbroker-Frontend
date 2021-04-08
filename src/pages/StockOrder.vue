@@ -99,7 +99,10 @@
               filled
               type="number"
               v-model="limitOrderPrice"
-              :label="$t('price')"
+              :rules="[val => val >= 0 || $t('onlyPositiveNumber')]"
+              lazy-rules
+              hide-bottom-space
+              :label="$t('limit')"
               suffix="€"
             >
               <template v-slot:append>
@@ -177,6 +180,9 @@
               filled
               type="number"
               v-model="stopValue"
+              :rules="[val => val >= 0 || $t('onlyPositiveNumber')]"
+              lazy-rules
+              hide-bottom-space
               :label="$t('stop')"
               suffix="€"
             >
@@ -207,6 +213,7 @@
               lazy-rules
               hide-bottom-space
               :label="$t('limit')"
+              suffix="€"
             >
               <template v-slot:append>
                 <q-btn
@@ -260,6 +267,9 @@
               filled
               type="number"
               v-model="stopValue"
+              :rules="[val => val >= 0 || $t('onlyPositiveNumber')]"
+              lazy-rules
+              hide-bottom-space
               :label="$t('stop')"
               suffix="€"
             >

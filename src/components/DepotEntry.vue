@@ -39,7 +39,8 @@
         <div class="col text-right">
           <div class="text-caption">{{ $t("winOrLost") }}</div>
           <div :class="'text-' + winOrLostValueColor">
-            {{ winOrLostValue }} €
+            {{ winOrLostValue }} € //
+            {{ (stockData.currentGainPercent * 100).toFixed(2) }} %
           </div>
         </div>
       </div>

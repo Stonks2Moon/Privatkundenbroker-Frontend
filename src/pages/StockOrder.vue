@@ -477,7 +477,7 @@ export default {
   },
   data() {
     return {
-      selectedOrderType: "Limit",
+      selectedOrderType: "Market",
       orderTypeOptions: ["Limit", "Market", "Stop Limit", "Stop Market"],
       isBuyButtonPressed: true,
       showPercentageTrendData: true,

@@ -35,6 +35,7 @@ export default {
   repeatNewPassword: 'Repeat',
   successfulPasswordChange: 'Successfully changed Password',
   failedPasswordChange: 'Old Password is not right',
+  wrongPassword: 'Wrong Password',
   add: "add",
   pleaseEnter: "Please enter",
   gender: 'Gender',

@@ -35,6 +35,7 @@ export default {
   repeatNewPassword: 'Wiederholen',
   successfulPasswordChange: 'Erfolgreich Passwort geändert',
   failedPasswordChange: 'Das alte Passwort stimmt nicht überein',
+  wrongPassword: 'Falsches Passwort',
   pleaseEnter: "Bitte angeben",
   gender: 'Geschlecht',
   male: 'Männlich',

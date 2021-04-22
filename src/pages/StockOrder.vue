@@ -686,6 +686,8 @@ export default {
         this.notifyForBadRequest("notEnoughMoney");
       } else if (message.includes("allowed amount")) {
         this.notifyForBadRequest("allowedAmount");
+      } else if (message.includes("Not enough shares")) {
+        this.notifyForBadRequest("notEnoughShares");
       }
     }
   }

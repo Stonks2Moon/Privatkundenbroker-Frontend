@@ -76,7 +76,7 @@ export default {
       this.relevantStocks = [];
       this.stockList.forEach(element => {
         if (
-          element.name.toLowerCase().includes(this.searchStock) &&
+          element.name.toLowerCase().includes(this.searchStock.toLowerCase()) &&
           this.searchStock !== ""
         ) {
           this.relevantStocks.push(element);
